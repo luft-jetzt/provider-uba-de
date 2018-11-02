@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace App\SourceFetcher\Reporting;
+namespace App\Provider\UmweltbundesamtDe\Reporting;
 
 /**
- * Acht-Stunden-Tagesmaxima
+ * Ein-Stunden-Tagesmaxima
  */
-class Ub8SMWMAX extends AbstractUbReporting
+class SMWMAX extends AbstractReporting
 {
     public function __construct(\DateTimeImmutable $dateTime)
     {
