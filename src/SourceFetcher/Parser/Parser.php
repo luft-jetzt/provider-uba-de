@@ -1,27 +1,18 @@
 <?php declare(strict_types=1);
 
-namespace App\Provider\UmweltbundesamtDe\SourceFetcher\Parser;
+namespace App\SourceFetcher\Parser;
 
-use App\Entity\Station;
-use App\Pollution\Value\Value;
-use App\Provider\UmweltbundesamtDe\UmweltbundesamtDeProvider;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use App\Model\Value\Value;
+use Carbon\Carbon;
 
 class Parser implements ParserInterface
 {
-    /** @var array $stationList */
-    protected $stationList;
+    protected array $stationList;
 
-    /** @var RegistryInterface $registry */
-    protected $registry;
-
-    public function __construct(RegistryInterface $registry)
+    public function parse(string $responseString, int $pollutant): array
     {
-        $this->registry = $registry;
-    }
+        $response = json_decode($responseString);
 
-    public function parse(array $response, int $pollutant): array
-    {
         $this->fetchStationList();
 
         $valueList = [];
@@ -42,8 +33,8 @@ class Parser implements ParserInterface
             $dataValue = new Value();
 
             $dataValue
-                ->setStation($stationCode)
-                ->setDateTime(new \DateTimeImmutable($data[3]))
+                ->setStationCode($stationCode)
+                ->setDateTime(new Carbon($data[3]))
                 ->setPollutant($pollutant)
                 ->setValue($data[2]);
 

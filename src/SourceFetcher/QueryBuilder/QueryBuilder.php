@@ -2,7 +2,7 @@
 
 namespace App\Provider\UmweltbundesamtDe\SourceFetcher\QueryBuilder;
 
-use App\Provider\UmweltbundesamtDe\SourceFetcher\Query\UbaQueryInterface;
+use App\SourceFetcher\Query\UbaQueryInterface;
 
 class QueryBuilder
 {

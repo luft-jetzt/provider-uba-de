@@ -1,124 +1,91 @@
 <?php declare(strict_types=1);
 
-namespace App\Provider\UmweltbundesamtDe\SourceFetcher;
+namespace App\SourceFetcher;
 
-use App\Air\Measurement\MeasurementInterface;
-use App\Producer\Value\ValueProducerInterface;
-use App\Provider\UmweltbundesamtDe\SourceFetcher\Parser\ParserInterface;
-use App\Provider\UmweltbundesamtDe\SourceFetcher\Query\UbaCOQuery;
-use App\Provider\UmweltbundesamtDe\SourceFetcher\Query\UbaNO2Query;
-use App\Provider\UmweltbundesamtDe\SourceFetcher\Query\UbaO3Query;
-use App\Provider\UmweltbundesamtDe\SourceFetcher\Query\UbaPM10Query;
-use App\Provider\UmweltbundesamtDe\SourceFetcher\Query\UbaQueryInterface;
-use App\Provider\UmweltbundesamtDe\SourceFetcher\Query\UbaSO2Query;
 use App\Provider\UmweltbundesamtDe\SourceFetcher\QueryBuilder\QueryBuilder;
-use App\SourceFetcher\FetchProcess;
-use App\SourceFetcher\FetchResult;
-use App\SourceFetcher\SourceFetcherInterface;
-use Curl\Curl;
+use App\SourceFetcher\Parser\ParserInterface;
+use App\SourceFetcher\Query\UbaCOQuery;
+use App\SourceFetcher\Query\UbaNO2Query;
+use App\SourceFetcher\Query\UbaO3Query;
+use App\SourceFetcher\Query\UbaPM10Query;
+use App\SourceFetcher\Query\UbaQueryInterface;
+use App\SourceFetcher\Query\UbaSO2Query;
+use Carbon\Carbon;
+use Carbon\CarbonInterval;
+use GuzzleHttp\Client;
 
 class SourceFetcher implements SourceFetcherInterface
 {
-    protected Curl $curl;
-
-    protected ValueProducerInterface $valueProducer;
-
     protected ParserInterface $parser;
+    protected Client $client;
 
-    public function __construct(ValueProducerInterface $valueProducer, ParserInterface $parser)
+    public function __construct(ParserInterface $parser)
     {
-        $this->curl = new Curl();
-        $this->valueProducer = $valueProducer;
         $this->parser = $parser;
+        $this->client = new Client([
+            'base_uri' => 'https://localhost:8000/',
+            'verify' => false,
+        ]);
     }
 
-    public function fetch(FetchProcess $fetchProcess): FetchResult
+    public function fetch(): void
     {
-        $fetchResult = new FetchResult();
+        $endDateTime = new Carbon();
+        $startDateTime = $endDateTime->sub(new CarbonInterval('P2H'));
 
-        if ($fetchProcess->getUntilDateTime()) {
-            $endDateTime = $fetchProcess->getUntilDateTime();
-        } else {
-            $endDateTime = new \DateTimeImmutable();
-        }
 
-        if ($fetchProcess->getFromDateTime()) {
-            $startDateTime = $fetchProcess->getFromDateTime();
-        } elseif ($fetchProcess->getInterval()) {
-            //$startDateTime = $endDateTime->sub(new \DateInterval(sprintf('PT%dH', $input->getOption('interval'))));
-            $startDateTime = $endDateTime->sub($fetchProcess->getInterval());
-        } else {
-            $startDateTime = $endDateTime->sub(new \DateInterval(sprintf('PT2H')));
-        }
-
-        /** @var MeasurementInterface $measurement */
-        foreach ($fetchProcess->getMeasurementList() as $measurement) {
-            $methodName = sprintf('fetch%s', strtoupper($measurement->getIdentifier()));
-
-            if (method_exists($this, $methodName)) {
-                 $this->$methodName($fetchResult, $endDateTime, $startDateTime);
-            }
-        }
-
-        return $fetchResult;
     }
 
-    protected function fetchPM10(FetchResult $fetchResult, \DateTimeInterface $endDateTime, \DateTimeInterface $startDateTime = null): void
+    protected function fetchPM10(Carbon $endDateTime, Carbon $startDateTime = null): void
     {
         $query = new UbaPM10Query();
 
-        $this->fetchMeasurement($fetchResult, $query, MeasurementInterface::MEASUREMENT_PM10);
+        $this->fetchMeasurement($query, 1);
     }
 
-    protected function fetchSO2(FetchResult $fetchResult, \DateTimeInterface $endDateTime, \DateTimeInterface $startDateTime = null): void
+    protected function fetchSO2(Carbon $endDateTime, Carbon $startDateTime = null): void
     {
         $query = new UbaSO2Query();
 
-        $this->fetchMeasurement($fetchResult, $query, MeasurementInterface::MEASUREMENT_SO2);
+        $this->fetchMeasurement($query, 4);
     }
 
-    protected function fetchNO2(FetchResult $fetchResult, \DateTimeInterface $endDateTime, \DateTimeInterface $startDateTime = null): void
+    protected function fetchNO2(Carbon $endDateTime, Carbon $startDateTime = null): void
     {
         $query = new UbaNO2Query();
 
-        $this->fetchMeasurement($fetchResult, $query, MeasurementInterface::MEASUREMENT_NO2);
+        $this->fetchMeasurement($query, 3);
     }
 
-    protected function fetchO3(FetchResult $fetchResult, \DateTimeInterface $endDateTime, \DateTimeInterface $startDateTime = null): void
+    protected function fetchO3(Carbon $endDateTime, Carbon $startDateTime = null): void
     {
         $query = new UbaO3Query();
 
-        $this->fetchMeasurement($fetchResult, $query, MeasurementInterface::MEASUREMENT_O3);
+        $this->fetchMeasurement($query, 2);
     }
 
-    protected function fetchCO(FetchResult $fetchResult, \DateTimeInterface $endDateTime, \DateTimeInterface $startDateTime = null): void
+    protected function fetchCO(Carbon $endDateTime, Carbon $startDateTime = null): void
     {
         $query = new UbaCOQuery();
 
-        $this->fetchMeasurement($fetchResult, $query, MeasurementInterface::MEASUREMENT_CO);
+        $this->fetchMeasurement($query, 5);
     }
 
-    protected function fetchMeasurement(FetchResult $fetchResult, UbaQueryInterface $query, int $pollutant): void
+    protected function fetchMeasurement(UbaQueryInterface $query, int $pollutant): array
     {
-        $response = $this->query($query);
+        $responseString = $this->query($query);
 
-        $valueList = $this->parser->parse($response, $pollutant);
-
-        $this->valueProducer->publishValues($valueList);
-
-        $fetchResult->incCounter((string) $pollutant, count($valueList));
+        return $this->parser->parse($responseString, $pollutant);
     }
 
-    protected function query(UbaQueryInterface $query): array
+    protected function query(UbaQueryInterface $query): string
     {
         $data = QueryBuilder::buildQueryString($query);
 
         $queryString = sprintf('https://www.umweltbundesamt.de/api/air_data/v2/measures/json?%s', $data);
 
-        $this->curl->get($queryString);
+        $response = $this->client->get($queryString);
 
-        $response = $this->curl->rawResponse;
-
-        return json_decode($response, true);
+        return $response->getBody()->getContents();
     }
 }
