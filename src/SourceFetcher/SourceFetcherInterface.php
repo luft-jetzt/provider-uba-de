@@ -4,5 +4,5 @@ namespace App\SourceFetcher;
 
 interface SourceFetcherInterface
 {
-    public function fetch(): void;
+    public function fetch(): string;
 }

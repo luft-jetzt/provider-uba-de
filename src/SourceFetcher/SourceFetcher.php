@@ -28,54 +28,52 @@ class SourceFetcher implements SourceFetcherInterface
         ]);
     }
 
-    public function fetch(): void
+    public function fetch(): string
     {
         $endDateTime = new Carbon();
-        $startDateTime = $endDateTime->sub(new CarbonInterval('P2H'));
+        $startDateTime = $endDateTime->sub(new CarbonInterval('PT2H'));
 
-
+        return $this->fetchNO2($endDateTime, $startDateTime);
     }
 
-    protected function fetchPM10(Carbon $endDateTime, Carbon $startDateTime = null): void
+    protected function fetchPM10(Carbon $endDateTime, Carbon $startDateTime = null): string
     {
         $query = new UbaPM10Query();
 
-        $this->fetchMeasurement($query, 1);
+        return $this->fetchMeasurement($query, 1);
     }
 
-    protected function fetchSO2(Carbon $endDateTime, Carbon $startDateTime = null): void
+    protected function fetchSO2(Carbon $endDateTime, Carbon $startDateTime = null): string
     {
         $query = new UbaSO2Query();
 
-        $this->fetchMeasurement($query, 4);
+        return $this->fetchMeasurement($query, 4);
     }
 
-    protected function fetchNO2(Carbon $endDateTime, Carbon $startDateTime = null): void
+    protected function fetchNO2(Carbon $endDateTime, Carbon $startDateTime = null): string
     {
         $query = new UbaNO2Query();
 
-        $this->fetchMeasurement($query, 3);
+        return $this->fetchMeasurement($query, 3);
     }
 
-    protected function fetchO3(Carbon $endDateTime, Carbon $startDateTime = null): void
+    protected function fetchO3(Carbon $endDateTime, Carbon $startDateTime = null): string
     {
         $query = new UbaO3Query();
 
-        $this->fetchMeasurement($query, 2);
+        return $this->fetchMeasurement($query, 2);
     }
 
-    protected function fetchCO(Carbon $endDateTime, Carbon $startDateTime = null): void
+    protected function fetchCO(Carbon $endDateTime, Carbon $startDateTime = null): string
     {
         $query = new UbaCOQuery();
 
-        $this->fetchMeasurement($query, 5);
+        return $this->fetchMeasurement($query, 5);
     }
 
-    protected function fetchMeasurement(UbaQueryInterface $query, int $pollutant): array
+    protected function fetchMeasurement(UbaQueryInterface $query, int $pollutant): string
     {
-        $responseString = $this->query($query);
-
-        return $this->parser->parse($responseString, $pollutant);
+        return $this->query($query);
     }
 
     protected function query(UbaQueryInterface $query): string
