@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\SourceFetcher\Parser\ParserInterface;
 use App\SourceFetcher\SourceFetcherInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -15,10 +16,12 @@ class LuftFetchCommand extends Command
     protected static $defaultName = 'luft:fetch';
 
     protected SourceFetcherInterface $sourceFetcher;
+    protected ParserInterface $parser;
 
-    public function __construct(string $name = null, SourceFetcherInterface $sourceFetcher)
+    public function __construct(string $name = null, SourceFetcherInterface $sourceFetcher, ParserInterface $parser)
     {
         $this->sourceFetcher = $sourceFetcher;
+        $this->parser = $parser;
 
         parent::__construct($name);
     }
@@ -38,7 +41,7 @@ class LuftFetchCommand extends Command
 
         $dataString = $this->sourceFetcher->fetch();
 
-        dump($dataString);
+        $valueList = $this->parser->parse($dataString, 3);
 
         $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
 

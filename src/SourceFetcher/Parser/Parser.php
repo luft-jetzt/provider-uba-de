@@ -46,7 +46,7 @@ class Parser implements ParserInterface
 
     protected function fetchStationList(): Parser
     {
-        $this->stationList = $this->registry->getRepository(Station::class)->findIndexedByProvider(UmweltbundesamtDeProvider::IDENTIFIER, 'ubaStationId');
+
 
         return $this;
     }

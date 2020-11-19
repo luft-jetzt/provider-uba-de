@@ -2,7 +2,7 @@
 
 namespace App\Provider\UmweltbundesamtDe\SourceFetcher\QueryBuilder;
 
-use App\SourceFetcher\Query\UbaQueryInterface;
+use App\SourceFetcher\Query\QueryInterface;
 
 class QueryBuilder
 {
@@ -11,7 +11,7 @@ class QueryBuilder
 
     }
 
-    public static function buildQueryString(UbaQueryInterface $query): string
+    public static function buildQueryString(QueryInterface $query): string
     {
         $data = [
             'component' => $query->getComponent(),

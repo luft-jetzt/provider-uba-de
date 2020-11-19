@@ -4,12 +4,12 @@ namespace App\SourceFetcher;
 
 use App\Provider\UmweltbundesamtDe\SourceFetcher\QueryBuilder\QueryBuilder;
 use App\SourceFetcher\Parser\ParserInterface;
-use App\SourceFetcher\Query\UbaCOQuery;
-use App\SourceFetcher\Query\UbaNO2Query;
-use App\SourceFetcher\Query\UbaO3Query;
-use App\SourceFetcher\Query\UbaPM10Query;
-use App\SourceFetcher\Query\UbaQueryInterface;
-use App\SourceFetcher\Query\UbaSO2Query;
+use App\SourceFetcher\Query\COQuery;
+use App\SourceFetcher\Query\NO2Query;
+use App\SourceFetcher\Query\O3Query;
+use App\SourceFetcher\Query\PM10Query;
+use App\SourceFetcher\Query\QueryInterface;
+use App\SourceFetcher\Query\SO2Query;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use GuzzleHttp\Client;
@@ -38,45 +38,45 @@ class SourceFetcher implements SourceFetcherInterface
 
     protected function fetchPM10(Carbon $endDateTime, Carbon $startDateTime = null): string
     {
-        $query = new UbaPM10Query();
+        $query = new PM10Query();
 
         return $this->fetchMeasurement($query, 1);
     }
 
     protected function fetchSO2(Carbon $endDateTime, Carbon $startDateTime = null): string
     {
-        $query = new UbaSO2Query();
+        $query = new SO2Query();
 
         return $this->fetchMeasurement($query, 4);
     }
 
     protected function fetchNO2(Carbon $endDateTime, Carbon $startDateTime = null): string
     {
-        $query = new UbaNO2Query();
+        $query = new NO2Query();
 
         return $this->fetchMeasurement($query, 3);
     }
 
     protected function fetchO3(Carbon $endDateTime, Carbon $startDateTime = null): string
     {
-        $query = new UbaO3Query();
+        $query = new O3Query();
 
         return $this->fetchMeasurement($query, 2);
     }
 
     protected function fetchCO(Carbon $endDateTime, Carbon $startDateTime = null): string
     {
-        $query = new UbaCOQuery();
+        $query = new COQuery();
 
         return $this->fetchMeasurement($query, 5);
     }
 
-    protected function fetchMeasurement(UbaQueryInterface $query, int $pollutant): string
+    protected function fetchMeasurement(QueryInterface $query, int $pollutant): string
     {
         return $this->query($query);
     }
 
-    protected function query(UbaQueryInterface $query): string
+    protected function query(QueryInterface $query): string
     {
         $data = QueryBuilder::buildQueryString($query);
 
