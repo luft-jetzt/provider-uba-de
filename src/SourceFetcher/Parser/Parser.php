@@ -17,13 +17,15 @@ class Parser implements ParserInterface
 
         $valueList = [];
 
+        dd($response);
         foreach ($response['data'] as $stationId => $dataSet) {
             $data = array_pop($dataSet);
 
             if ($data[2] <= 0) {
                 continue;
             }
-            
+
+            dd($stationId);
             if (!array_key_exists($stationId, $this->stationList)) {
                 continue;
             }
