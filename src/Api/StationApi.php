@@ -8,6 +8,8 @@ use JMS\Serializer\SerializerInterface;
 
 class StationApi implements StationApiInterface
 {
+    const SERIALIZER_FORMAT = 'json';
+
     protected Client $client;
     protected SerializerInterface $serializer;
 
@@ -25,7 +27,7 @@ class StationApi implements StationApiInterface
     {
         $response = $this->client->get('/api/station?provider=uba_de');
 
-        $stationList = $this->serializer->deserialize($response->getBody()->getContents(), 'array<App\Model\Station>', 'json');
+        $stationList = $this->serializer->deserialize($response->getBody()->getContents(), 'array<App\Model\Station>', self::SERIALIZER_FORMAT);
 
         $assocStationList = [];
 
@@ -39,11 +41,20 @@ class StationApi implements StationApiInterface
 
     public function putStations(array $stationList): void
     {
-
+        $this->client->put('/api/station', [
+            'body' => $this->serializer->serialize($stationList, self::SERIALIZER_FORMAT),
+        ]);
     }
 
     public function postStations(array $stationList): void
     {
+        /** @var Station $station */
+        foreach ($stationList as $station) {
+            $postApiUrl = sprintf('/api/station/%d', $station->getStationCode());
 
+            $this->client->post($postApiUrl, [
+                'body' => $this->serializer->serialize($station, self::SERIALIZER_FORMAT),
+            ]);
+        }
     }
 }
