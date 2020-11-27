@@ -2,7 +2,7 @@
 
 namespace App\SourceFetcher;
 
-use App\Provider\UmweltbundesamtDe\SourceFetcher\QueryBuilder\QueryBuilder;
+use App\SourceFetcher\QueryBuilder\QueryBuilder;
 use App\SourceFetcher\Parser\ParserInterface;
 use App\SourceFetcher\Query\COQuery;
 use App\SourceFetcher\Query\NO2Query;
@@ -40,38 +40,38 @@ class SourceFetcher implements SourceFetcherInterface
     {
         $query = new PM10Query();
 
-        return $this->fetchMeasurement($query, 1);
+        return $this->fetchMeasurement($query);
     }
 
     protected function fetchSO2(Carbon $endDateTime, Carbon $startDateTime = null): string
     {
         $query = new SO2Query();
 
-        return $this->fetchMeasurement($query, 4);
+        return $this->fetchMeasurement($query);
     }
 
     protected function fetchNO2(Carbon $endDateTime, Carbon $startDateTime = null): string
     {
         $query = new NO2Query();
 
-        return $this->fetchMeasurement($query, 3);
+        return $this->fetchMeasurement($query);
     }
 
     protected function fetchO3(Carbon $endDateTime, Carbon $startDateTime = null): string
     {
         $query = new O3Query();
 
-        return $this->fetchMeasurement($query, 2);
+        return $this->fetchMeasurement($query);
     }
 
     protected function fetchCO(Carbon $endDateTime, Carbon $startDateTime = null): string
     {
         $query = new COQuery();
 
-        return $this->fetchMeasurement($query, 5);
+        return $this->fetchMeasurement($query);
     }
 
-    protected function fetchMeasurement(QueryInterface $query, int $pollutant): string
+    protected function fetchMeasurement(QueryInterface $query): string
     {
         return $this->query($query);
     }

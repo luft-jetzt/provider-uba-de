@@ -4,5 +4,5 @@ namespace App\SourceFetcher\Parser;
 
 interface ParserInterface
 {
-    public function parse(string $responseString, int $pollutant): array;
+    public function parse(string $responseString, string $pollutant): array;
 }

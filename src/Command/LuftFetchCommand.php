@@ -32,9 +32,8 @@ class LuftFetchCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Add a short description for your command')
-            ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
+            ->setDescription('Fetch pollutants from uba api')
+            ->addArgument('pollutants', InputArgument::IS_ARRAY, 'List pollutants to fetch')
         ;
     }
 
@@ -42,13 +41,31 @@ class LuftFetchCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $dataString = $this->sourceFetcher->fetch();
+        $pollutantList = $input->getArgument('pollutants');
 
-        $valueList = $this->parser->parse($dataString, 3);
+        if (empty($pollutantList)) {
+            $io->error('Please specify at least one pollutant to fetch.');
 
-        $this->valueApi->putValues($valueList);
+            return Command::FAILURE;
+        }
 
-        $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
+        foreach ($pollutantList as $pollutantIdentifier) {
+            $pollutantFetchMethodName = sprintf('fetch%s', strtoupper($pollutantIdentifier));
+
+            if (!method_exists($this->sourceFetcher, $pollutantFetchMethodName)) {
+                $io->error(sprintf('Could not find a method to fetch pollutant "%s"', $pollutantIdentifier));
+
+                continue;
+            }
+
+            $dataString = $this->sourceFetcher->fetch();
+
+            $valueList = $this->parser->parse($dataString, $pollutantIdentifier);
+
+            $this->valueApi->putValues($valueList);
+
+            $io->success(sprintf('Fetched %d values for pollutant "%s"', count($valueList), $pollutantIdentifier));
+        }
 
         return Command::SUCCESS;
     }

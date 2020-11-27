@@ -18,7 +18,7 @@ class Parser implements ParserInterface
         $this->stationManager = $stationManager;
     }
 
-    public function parse(string $responseString, int $pollutant): array
+    public function parse(string $responseString, string $pollutant): array
     {
         $response = json_decode($responseString, true, 512, JSON_OBJECT_AS_ARRAY);
 

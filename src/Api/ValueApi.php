@@ -2,7 +2,6 @@
 
 namespace App\Api;
 
-
 use App\Model\Value;
 
 class ValueApi extends AbstractApi implements ValueApiInterface
