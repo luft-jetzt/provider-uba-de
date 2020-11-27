@@ -2,54 +2,53 @@
 
 namespace App\SourceFetcher\Parser;
 
+use App\Model\Station;
 use App\Model\Value\Value;
+use App\StationManager\StationManagerInterface;
 use Carbon\Carbon;
 
 class Parser implements ParserInterface
 {
     protected array $stationList;
 
+    protected StationManagerInterface $stationManager;
+
+    public function __construct(StationManagerInterface $stationManager)
+    {
+        $this->stationManager = $stationManager;
+    }
+
     public function parse(string $responseString, int $pollutant): array
     {
-        $response = json_decode($responseString);
-
-        $this->fetchStationList();
+        $response = json_decode($responseString, true, 512, JSON_OBJECT_AS_ARRAY);
 
         $valueList = [];
 
-        dd($response);
-        foreach ($response['data'] as $stationId => $dataSet) {
+        foreach ($response['data'] as $ubaStationId => $dataSet) {
             $data = array_pop($dataSet);
 
             if ($data[2] <= 0) {
                 continue;
             }
 
-            dd($stationId);
-            if (!array_key_exists($stationId, $this->stationList)) {
+            if (!$this->stationManager->stationExists($ubaStationId)) {
                 continue;
             }
 
-            $stationCode = $this->stationList[$stationId]->getStationCode();
+            /** @var Station $station */
+            $station = $this->stationManager->getStationById($ubaStationId);
 
-            $dataValue = new Value();
+            $value = new Value();
 
-            $dataValue
-                ->setStationCode($stationCode)
+            $value
+                ->setStationCode($station->getStationCode())
                 ->setDateTime(new Carbon($data[3]))
                 ->setPollutant($pollutant)
                 ->setValue($data[2]);
 
-            $valueList[] = $dataValue;
+            $valueList[] = $value;
         }
 
         return $valueList;
-    }
-
-    protected function fetchStationList(): Parser
-    {
-
-
-        return $this;
     }
 }

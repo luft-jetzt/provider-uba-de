@@ -17,8 +17,8 @@ class QueryBuilder
             'component' => $query->getComponent(),
             'scope' => $query->getScope(),
             'date_from' => $query->getFromDateTime()->format('Y-m-d'),
-            'time_from' => $query->getFromDateTime()->format('H'),
-            'date_to' => $query->getUntilDateTime()->format('Y-m-d'),
+            'time_from' => 11, //$query->getFromDateTime()->format('H'),
+            'date_to' => 11, //$query->getUntilDateTime()->format('Y-m-d'),
             'time_to' => $query->getUntilDateTime()->format('H'),
         ];
 

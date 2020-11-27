@@ -35,6 +35,8 @@ class StationCacheCommand extends Command
 
         $stationList = $this->stationManager->loadStationList();
 
+        $this->stationManager->cacheStationList($stationList);
+
         $io->table(['Station Code', 'UBA Station Id',], array_map(function (Station $station): array
         {
             return [$station->getStationCode(), $station->getUbaStationId(),];

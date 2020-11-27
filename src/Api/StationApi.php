@@ -16,8 +16,8 @@ class StationApi implements StationApiInterface
     public function __construct(SerializerInterface $serializer)
     {
         $this->client = new Client([
-            'base_uri' => 'https://luft.jetzt/',
-            'verify' => true,
+            'base_uri' => 'https://localhost:8000/',
+            'verify' => false,
         ]);
 
         $this->serializer = $serializer;

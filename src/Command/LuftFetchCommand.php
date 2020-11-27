@@ -43,6 +43,7 @@ class LuftFetchCommand extends Command
 
         $valueList = $this->parser->parse($dataString, 3);
 
+        $this->
         $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
 
         return Command::SUCCESS;
