@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Model\Station;
 use App\StationManager\StationManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -32,7 +33,12 @@ class StationCacheCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $this->stationManager->loadStationList();
+        $stationList = $this->stationManager->loadStationList();
+
+        $io->table(['Station Code', 'UBA Station Id',], array_map(function (Station $station): array
+        {
+            return [$station->getStationCode(), $station->getUbaStationId(),];
+        }, $stationList));
 
         return Command::SUCCESS;
     }

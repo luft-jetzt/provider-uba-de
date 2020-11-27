@@ -19,11 +19,11 @@ class StationManager implements StationManagerInterface
         $this->stationCache = $stationCache;
     }
 
-    public function loadStationList(): StationManager
+    public function loadStationList(): array
     {
-        $this->stationApi->getStations();
-
-        return $this;
+        return $this->stationApi->getStations();
     }
+
+
 }
 

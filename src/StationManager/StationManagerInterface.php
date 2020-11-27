@@ -4,6 +4,6 @@ namespace App\StationManager;
 
 interface StationManagerInterface
 {
-    public function loadStationList(): StationManagerInterface;
+    public function loadStationList(): array;
 }
 

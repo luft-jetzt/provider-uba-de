@@ -2,6 +2,7 @@
 
 namespace App\Api;
 
+use App\Model\Station;
 use GuzzleHttp\Client;
 use JMS\Serializer\SerializerInterface;
 
@@ -22,10 +23,27 @@ class StationApi implements StationApiInterface
 
     public function getStations(): array
     {
-        $response = $this->client->get('/api/station');
+        $response = $this->client->get('/api/station?provider=uba_de');
 
         $stationList = $this->serializer->deserialize($response->getBody()->getContents(), 'array<App\Model\Station>', 'json');
 
-        return $stationList;
+        $assocStationList = [];
+
+        /** @var Station $station */
+        foreach ($stationList as $station) {
+            $assocStationList[$station->getStationCode()] = $station;
+        }
+
+        return $assocStationList;
+    }
+
+    public function putStations(array $stationList): void
+    {
+
+    }
+
+    public function postStations(array $stationList): void
+    {
+
     }
 }

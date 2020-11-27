@@ -9,7 +9,7 @@ use App\Air\Measurement\PM10;
 use App\Air\Measurement\SO2;
 use App\Provider\AbstractProvider;
 use App\Provider\UmweltbundesamtDe\SourceFetcher\SourceFetcher;
-use App\Provider\UmweltbundesamtDe\StationLoader\UmweltbundesamtStationLoader;
+use App\Provider\UmweltbundesamtDe\StationLoader\StationLoader;
 use App\SourceFetcher\FetchProcess;
 use App\SourceFetcher\FetchResult;
 
@@ -19,7 +19,7 @@ class UmweltbundesamtDeProvider extends AbstractProvider
 
     protected SourceFetcher $fetcher;
 
-    public function __construct(UmweltbundesamtStationLoader $umweltbundesamtStationLoader, SourceFetcher $fetcher)
+    public function __construct(StationLoader $umweltbundesamtStationLoader, SourceFetcher $fetcher)
     {
         $this->stationLoader = $umweltbundesamtStationLoader;
         $this->fetcher = $fetcher;
