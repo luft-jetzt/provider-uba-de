@@ -22,59 +22,59 @@ class Station
     /**
      * @JMS\Expose()
      */
-    protected string $title;
+    protected ?string $title = null;
 
     /**
      * @JMS\Expose()
      */
-    protected float $latitude;
+    protected ?float $latitude = null;
 
     /**
      * @JMS\Expose()
      */
-    protected float $longitude;
+    protected ?float $longitude = null;
 
     /**
      * @JMS\Expose()
      */
-    protected string $cityName;
-
-    /**
-     * @JMS\Expose()
-     * @JMS\Type("DateTime<'U'>")
-     */
-    protected \DateTime $fromDate;
+    protected ?string $cityName = null;
 
     /**
      * @JMS\Expose()
      * @JMS\Type("DateTime<'U'>")
      */
-    protected \DateTime $untilDate;
+    protected ?\DateTime $fromDate = null;
+
+    /**
+     * @JMS\Expose()
+     * @JMS\Type("DateTime<'U'>")
+     */
+    protected ?\DateTime $untilDate = null;
 
     /**
      * @JMS\Expose()
      */
-    protected int $altitude;
+    protected ?int $altitude = null;
 
     /**
      * @JMS\Expose()
      */
-    protected string $stationType;
+    protected ?string $stationType = null;
 
     /**
      * @JMS\Expose()
      */
-    protected string $areaType;
+    protected ?string $areaType = null;
 
     /**
      * @JMS\Expose()
      */
-    protected string $provider;
+    protected ?string $provider = null;
 
     /**
      * @JMS\Expose()
      */
-    protected string $network;
+    protected ?string $network = null;
 
     public function getStationCode(): ?string
     {
@@ -100,7 +100,7 @@ class Station
         return $this;
     }
 
-    public function getLatitude(): float
+    public function getLatitude(): ?float
     {
         return $this->latitude;
     }
@@ -112,7 +112,7 @@ class Station
         return $this;
     }
 
-    public function getLongitude(): float
+    public function getLongitude(): ?float
     {
         return $this->longitude;
     }
@@ -143,7 +143,7 @@ class Station
         return $this;
     }
 
-    public function getCity(): string
+    public function getCity(): ?string
     {
         return $this->cityName;
     }
@@ -160,11 +160,6 @@ class Station
         return $this;
     }
 
-    public function getFromDateFormatted(): ?string
-    {
-        return $this->fromDate ? $this->fromDate->format('Y-m-d H:i:s') : null;
-    }
-
     public function getUntilDate(): ?\DateTime
     {
         return $this->untilDate;
@@ -175,11 +170,6 @@ class Station
         $this->untilDate = $untilDate;
 
         return $this;
-    }
-
-    public function getUntilDateFormatted(): ?string
-    {
-        return $this->untilDate ? $this->untilDate->format('Y-m-d H:i:s') : null;
     }
 
     public function getAltitude(): ?int
@@ -226,18 +216,6 @@ class Station
     public function setProvider(string $provider): Station
     {
         $this->provider = $provider;
-
-        return $this;
-    }
-
-    public function getNetwork(): ?Network
-    {
-        return $this->network;
-    }
-
-    public function setNetwork(Network $network): Station
-    {
-        $this->network = $network;
 
         return $this;
     }
