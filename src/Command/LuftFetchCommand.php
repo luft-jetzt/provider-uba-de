@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Api\ValueApiInterface;
 use App\SourceFetcher\Parser\ParserInterface;
 use App\SourceFetcher\SourceFetcherInterface;
 use Symfony\Component\Console\Command\Command;
@@ -17,11 +18,13 @@ class LuftFetchCommand extends Command
 
     protected SourceFetcherInterface $sourceFetcher;
     protected ParserInterface $parser;
+    protected ValueApiInterface $valueApi;
 
-    public function __construct(string $name = null, SourceFetcherInterface $sourceFetcher, ParserInterface $parser)
+    public function __construct(string $name = null, SourceFetcherInterface $sourceFetcher, ParserInterface $parser, ValueApiInterface $valueApi)
     {
         $this->sourceFetcher = $sourceFetcher;
         $this->parser = $parser;
+        $this->valueApi = $valueApi;
 
         parent::__construct($name);
     }
@@ -43,7 +46,8 @@ class LuftFetchCommand extends Command
 
         $valueList = $this->parser->parse($dataString, 3);
 
-        $this->
+        $this->valueApi->putValues($valueList);
+
         $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
 
         return Command::SUCCESS;

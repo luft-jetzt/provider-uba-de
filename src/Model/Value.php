@@ -1,7 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\Model\Value;
+namespace App\Model;
 
+use Carbon\Carbon;
 use JMS\Serializer\Annotation as JMS;
 
 /**
@@ -17,9 +18,9 @@ class Value
 
     /**
      * @JMS\Expose()
-     * @JMS\Type("DateTime<'U'>")
+     * @JMS\Type("Carbon<'U'>")
      */
-    protected ?\DateTime $dateTime = null;
+    protected ?Carbon $dateTime = null;
 
     /**
      * @JMS\Expose()

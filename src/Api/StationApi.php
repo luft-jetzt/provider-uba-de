@@ -3,26 +3,9 @@
 namespace App\Api;
 
 use App\Model\Station;
-use GuzzleHttp\Client;
-use JMS\Serializer\SerializerInterface;
 
-class StationApi implements StationApiInterface
+class StationApi extends AbstractApi implements StationApiInterface
 {
-    const SERIALIZER_FORMAT = 'json';
-
-    protected Client $client;
-    protected SerializerInterface $serializer;
-
-    public function __construct(SerializerInterface $serializer)
-    {
-        $this->client = new Client([
-            'base_uri' => 'https://localhost:8000/',
-            'verify' => false,
-        ]);
-
-        $this->serializer = $serializer;
-    }
-
     public function getStations(): array
     {
         $response = $this->client->get('/api/station?provider=uba_de');

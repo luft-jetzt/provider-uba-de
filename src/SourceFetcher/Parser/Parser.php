@@ -3,7 +3,7 @@
 namespace App\SourceFetcher\Parser;
 
 use App\Model\Station;
-use App\Model\Value\Value;
+use App\Model\Value;
 use App\StationManager\StationManagerInterface;
 use Carbon\Carbon;
 
