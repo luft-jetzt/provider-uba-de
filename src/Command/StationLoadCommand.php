@@ -2,6 +2,8 @@
 
 namespace App\Command;
 
+use App\Api\StationApi;
+use App\Api\StationApiInterface;
 use App\StationLoader\StationLoaderInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -15,10 +17,12 @@ class StationLoadCommand extends Command
     protected static $defaultName = 'station:load';
 
     protected StationLoaderInterface $stationLoader;
+    protected StationApiInterface $stationApi;
 
-    public function __construct(string $name = null, StationLoaderInterface $stationLoader)
+    public function __construct(string $name = null, StationLoaderInterface $stationLoader, StationApiInterface $stationApi)
     {
         $this->stationLoader = $stationLoader;
+        $this->stationApi = $stationApi;
 
         parent::__construct($name);
     }
@@ -36,7 +40,12 @@ class StationLoadCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $this->stationLoader->load();
+        $result = $this->stationLoader->load();
+
+        $io->success(sprintf('Found %d existing stations, %d new stations and %d changed stations.', count($result->getExistingStationList()), count($result->getNewStationList()), count($result->getChangedStationList())));
+
+        $this->stationApi->putStations($result->getNewStationList());
+        $this->stationApi->postStations($result->getChangedStationList());
 
         return Command::SUCCESS;
     }

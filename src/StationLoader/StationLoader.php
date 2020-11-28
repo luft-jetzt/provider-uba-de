@@ -2,9 +2,10 @@
 
 namespace App\StationLoader;
 
+use App\Api\StationApiInterface;
 use App\Model\Station;
 
-class StationLoader extends AbstractStationLoader
+class StationLoader implements StationLoaderInterface
 {
     const SOURCE_URL = 'https://www.umweltbundesamt.de/api/air_data/v2/meta/json?use=measure&lang=de';
 
@@ -22,11 +23,21 @@ class StationLoader extends AbstractStationLoader
     const FIELD_AREA_TYPE = 15;
     const FIELD_STATION_TYPE = 16;
 
-    /** @var bool $update */
-    protected $update = false;
+    protected bool $update = false;
 
-    /** @var array $ubaStationList */
-    protected $ubaStationList = [];
+    protected array $ubaStationList = [];
+
+    protected StationApiInterface $stationApi;
+
+    public function __construct(StationApiInterface $stationApi)
+    {
+        $this->stationApi = $stationApi;
+    }
+
+    protected function stationExists(StationLoadResult $stationLoadResult, string $stationCode): bool
+    {
+        return array_key_exists($stationCode, $stationLoadResult->getNewStationList()) || array_key_exists($stationCode, $stationLoadResult->getChangedStationList()) || array_key_exists($stationCode, $stationLoadResult->getExistingStationList());
+    }
 
     protected function mergeStation(Station $station, array $stationData): Station
     {
@@ -44,9 +55,11 @@ class StationLoader extends AbstractStationLoader
         return $station;
     }
 
-    public function load(): StationLoaderInterface
+    public function load(): StationLoadResult
     {
-        $this->existingStationList = $this->getExistingStationList();
+        $existingStationList = $this->getExistingStationList();
+        $stationLoadResult = new StationLoadResult();
+        $stationLoadResult->setExistingStationList($existingStationList);
 
         $this->fetchStationList();
 
@@ -57,28 +70,20 @@ class StationLoader extends AbstractStationLoader
 
             $stationCode = $stationData[self::FIELD_STATION_CODE];
 
-            if (!$this->stationExists($stationCode)) {
+            if (!$this->stationExists($stationLoadResult, $stationCode)) {
                 $station = $this->createStation($stationData);
 
-                $this->newStationList[] = $station;
+                $stationLoadResult->addNewStation($station);
             } elseif ($this->update === true) {
                 $station = $this->existingStationList[$stationCode];
 
                 $this->mergeStation($station, $stationData);
 
-                $this->changedStationList[] = $station;
+                $stationLoadResult->addChangedStation($station);
             }
         }
 
-        $this->stationApi->putStations($this->newStationList);
-        $this->stationApi->postStations($this->changedStationList);
-
-        return $this;
-    }
-
-    public function count(): int
-    {
-        return count($this->ubaStationList);
+        return $stationLoadResult;
     }
 
     public function setUpdate(bool $update = false): StationLoaderInterface

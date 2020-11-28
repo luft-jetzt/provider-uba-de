@@ -4,9 +4,7 @@ namespace App\StationLoader;
 
 interface StationLoaderInterface
 {
-    public function load(): StationLoaderInterface;
-    public function count(): int;
+    public function load(): StationLoadResult;
     public function setUpdate(bool $update = false): StationLoaderInterface;
     public function getExistingStationList(): array;
-    public function getNewStationList(): array;
 }
