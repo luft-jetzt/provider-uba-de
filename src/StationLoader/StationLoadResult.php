@@ -2,7 +2,7 @@
 
 namespace App\StationLoader;
 
-use App\Model\Station;
+use Caldera\LuftApiBundle\Model\Station;
 
 class StationLoadResult
 {

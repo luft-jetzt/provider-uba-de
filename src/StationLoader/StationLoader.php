@@ -2,8 +2,8 @@
 
 namespace App\StationLoader;
 
-use App\Api\StationApiInterface;
-use App\Model\Station;
+use Caldera\LuftApiBundle\Api\StationApiInterface;
+use Caldera\LuftApiBundle\Model\Station;
 
 class StationLoader implements StationLoaderInterface
 {
@@ -107,7 +107,10 @@ class StationLoader implements StationLoaderInterface
         $latitude = (float)$stationData[self::FIELD_LATITUDE];
         $longitude = (float)$stationData[self::FIELD_LONGITUDE];
 
-        $station = new Station($latitude, $longitude);
+        $station = new Station();
+        $station
+            ->setLatitude($latitude)
+            ->setLongitude($longitude);
 
         $this->mergeStation($station, $stationData);
 
