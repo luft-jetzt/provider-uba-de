@@ -42,7 +42,7 @@ class Parser implements ParserInterface
 
             $value
                 ->setStationCode($station->getStationCode())
-                ->setDateTime(new Carbon($data[3]))
+                ->setDateTime(new \DateTime($data[3]))
                 ->setPollutant($pollutant)
                 ->setValue($data[2]);
 
