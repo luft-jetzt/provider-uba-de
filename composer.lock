@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "510d109eb3456f42274079f18cb4f111",
+    "content-hash": "304822d038416f87a609caa3c34f6cee",
     "packages": [
         {
             "name": "autumndev/jms-serializer-carbon",
@@ -743,16 +743,16 @@
         },
         {
             "name": "luft-jetzt/luft-api-bundle",
-            "version": "v0.1.0",
+            "version": "0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/luft-jetzt/luft-api-bundle.git",
-                "reference": "1b0644c63faf72674a17da955d3bc16443c2fcee"
+                "reference": "ee1962dc9b51b3d42cd0d52b02857e58e5708463"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/luft-jetzt/luft-api-bundle/zipball/1b0644c63faf72674a17da955d3bc16443c2fcee",
-                "reference": "1b0644c63faf72674a17da955d3bc16443c2fcee",
+                "url": "https://api.github.com/repos/luft-jetzt/luft-api-bundle/zipball/ee1962dc9b51b3d42cd0d52b02857e58e5708463",
+                "reference": "ee1962dc9b51b3d42cd0d52b02857e58e5708463",
                 "shasum": ""
             },
             "require": {
@@ -775,9 +775,9 @@
             ],
             "support": {
                 "issues": "https://github.com/luft-jetzt/luft-api-bundle/issues",
-                "source": "https://github.com/luft-jetzt/luft-api-bundle/tree/v0.1.0"
+                "source": "https://github.com/luft-jetzt/luft-api-bundle/tree/0.1.1"
             },
-            "time": "2020-12-19T01:52:09+00:00"
+            "time": "2020-12-19T12:25:30+00:00"
         },
         {
             "name": "nesbot/carbon",
