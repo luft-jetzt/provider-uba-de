@@ -2,9 +2,9 @@
 
 namespace App\SourceFetcher\Parser;
 
-use App\Model\Station;
-use App\Model\Value;
 use App\StationManager\StationManagerInterface;
+use Caldera\LuftApiBundle\Model\Station;
+use Caldera\LuftApiBundle\Model\Value;
 use Carbon\Carbon;
 
 class Parser implements ParserInterface
@@ -42,7 +42,7 @@ class Parser implements ParserInterface
 
             $value
                 ->setStationCode($station->getStationCode())
-                ->setDateTime(new Carbon($data[3]))
+                ->setDateTime(new \DateTime($data[3]))
                 ->setPollutant($pollutant)
                 ->setValue($data[2]);
 

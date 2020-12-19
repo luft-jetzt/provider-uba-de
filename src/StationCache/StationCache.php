@@ -2,7 +2,7 @@
 
 namespace App\StationCache;
 
-use App\Model\Station;
+use Caldera\LuftApiBundle\Model\Station;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;

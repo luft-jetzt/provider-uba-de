@@ -2,9 +2,8 @@
 
 namespace App\Command;
 
-use App\Api\StationApi;
-use App\Api\StationApiInterface;
 use App\StationLoader\StationLoaderInterface;
+use Caldera\LuftApiBundle\Api\StationApiInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
