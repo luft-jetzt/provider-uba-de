@@ -7,7 +7,7 @@ use Caldera\LuftApiBundle\Model\Station;
 interface StationCacheInterface
 {
     const TTL = 60 * 60;
-    const NAMESPACE = 'luft_jetzt_uba_station_cache';
+    const NAMESPACE = 'luft_jetzt-uba_station_cache';
 
     public function addStation(Station $station): StationCacheInterface;
 

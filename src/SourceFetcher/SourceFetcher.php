@@ -28,12 +28,13 @@ class SourceFetcher implements SourceFetcherInterface
         ]);
     }
 
-    public function fetch(): string
+    public function fetch(string $pollutantIdentifier): string
     {
         $endDateTime = new Carbon();
         $startDateTime = $endDateTime->sub(new CarbonInterval('PT2H'));
 
-        return $this->fetchNO2($endDateTime, $startDateTime);
+        $fetchMethodName = sprintf('fetch%s', strtoupper($pollutantIdentifier));
+        return $this->$fetchMethodName($endDateTime, $startDateTime);
     }
 
     protected function fetchPM10(Carbon $endDateTime, Carbon $startDateTime = null): string

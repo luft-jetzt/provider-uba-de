@@ -58,7 +58,7 @@ class LuftFetchCommand extends Command
                 continue;
             }
 
-            $dataString = $this->sourceFetcher->fetch();
+            $dataString = $this->sourceFetcher->fetch($pollutantIdentifier);
 
             $valueList = $this->parser->parse($dataString, $pollutantIdentifier);
 

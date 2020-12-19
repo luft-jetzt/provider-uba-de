@@ -4,5 +4,5 @@ namespace App\SourceFetcher;
 
 interface SourceFetcherInterface
 {
-    public function fetch(): string;
+    public function fetch(string $pollutantIdentifier): string;
 }
