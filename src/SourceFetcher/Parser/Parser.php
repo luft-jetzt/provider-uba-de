@@ -24,31 +24,29 @@ class Parser implements ParserInterface
 
         $valueList = [];
 
-        dd($response['data']);
-
         foreach ($response['data'] as $ubaStationId => $dataSet) {
-            $data = array_pop($dataSet);
+            while ($data = array_pop($dataSet)) {
+                if ($data[2] <= 0) {
+                    continue;
+                }
 
-            if ($data[2] <= 0) {
-                continue;
+                if (!$this->stationManager->stationExists($ubaStationId)) {
+                    continue;
+                }
+
+                /** @var Station $station */
+                $station = $this->stationManager->getStationById($ubaStationId);
+
+                $value = new Value();
+
+                $value
+                    ->setStationCode($station->getStationCode())
+                    ->setDateTime(new \DateTime($data[3]))
+                    ->setPollutant($pollutant)
+                    ->setValue($data[2]);
+
+                $valueList[] = $value;
             }
-
-            if (!$this->stationManager->stationExists($ubaStationId)) {
-                continue;
-            }
-
-            /** @var Station $station */
-            $station = $this->stationManager->getStationById($ubaStationId);
-
-            $value = new Value();
-
-            $value
-                ->setStationCode($station->getStationCode())
-                ->setDateTime(new \DateTime($data[3]))
-                ->setPollutant($pollutant)
-                ->setValue($data[2]);
-
-            $valueList[] = $value;
         }
 
         return $valueList;
