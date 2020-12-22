@@ -24,6 +24,8 @@ class Parser implements ParserInterface
 
         $valueList = [];
 
+        dd($response['data']);
+
         foreach ($response['data'] as $ubaStationId => $dataSet) {
             $data = array_pop($dataSet);
 

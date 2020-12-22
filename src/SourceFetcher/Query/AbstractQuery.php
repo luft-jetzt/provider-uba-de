@@ -14,10 +14,10 @@ abstract class AbstractQuery implements QueryInterface
 
     protected Carbon $untilDateTime;
 
-    public function __construct()
+    public function __construct(Carbon $untilDateTime = null, Carbon $fromDateTime = null)
     {
-        $this->fromDateTime = new Carbon();
-        $this->untilDateTime = new Carbon();
+        $this->fromDateTime = $fromDateTime ?? new Carbon();
+        $this->untilDateTime = $untilDateTime ?? new Carbon();
     }
 
     public function getComponent(): int

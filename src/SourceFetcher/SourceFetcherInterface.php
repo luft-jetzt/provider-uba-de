@@ -2,7 +2,9 @@
 
 namespace App\SourceFetcher;
 
+use Carbon\Carbon;
+
 interface SourceFetcherInterface
 {
-    public function fetch(string $pollutantIdentifier): string;
+    public function fetch(string $pollutantIdentifier, Carbon $untilDateTime = null, Carbon $fromDateTime = null): string;
 }

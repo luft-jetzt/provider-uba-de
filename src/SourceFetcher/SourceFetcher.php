@@ -28,46 +28,51 @@ class SourceFetcher implements SourceFetcherInterface
         ]);
     }
 
-    public function fetch(string $pollutantIdentifier): string
+    public function fetch(string $pollutantIdentifier, Carbon $untilDateTime = null, Carbon $fromDateTime = null): string
     {
-        $endDateTime = new Carbon();
-        $startDateTime = $endDateTime->sub(new CarbonInterval('PT2H'));
+        if (!$untilDateTime) {
+            $untilDateTime = new Carbon();
+        }
+
+        if (!$fromDateTime) {
+            $fromDateTime = $untilDateTime->sub(new CarbonInterval('PT2H'));
+        }
 
         $fetchMethodName = sprintf('fetch%s', strtoupper($pollutantIdentifier));
-        return $this->$fetchMethodName($endDateTime, $startDateTime);
+        return $this->$fetchMethodName($untilDateTime, $fromDateTime);
     }
 
-    protected function fetchPM10(Carbon $endDateTime, Carbon $startDateTime = null): string
+    protected function fetchPM10(Carbon $untilDateTime, Carbon $fromDateTime = null): string
     {
-        $query = new PM10Query();
+        $query = new PM10Query($untilDateTime, $fromDateTime);
 
         return $this->fetchMeasurement($query);
     }
 
-    protected function fetchSO2(Carbon $endDateTime, Carbon $startDateTime = null): string
+    protected function fetchSO2(Carbon $untilDateTime, Carbon $fromDateTime = null): string
     {
-        $query = new SO2Query();
+        $query = new SO2Query($untilDateTime, $fromDateTime);
 
         return $this->fetchMeasurement($query);
     }
 
-    protected function fetchNO2(Carbon $endDateTime, Carbon $startDateTime = null): string
+    protected function fetchNO2(Carbon $untilDateTime, Carbon $fromDateTime = null): string
     {
-        $query = new NO2Query();
+        $query = new NO2Query($untilDateTime, $fromDateTime);
 
         return $this->fetchMeasurement($query);
     }
 
-    protected function fetchO3(Carbon $endDateTime, Carbon $startDateTime = null): string
+    protected function fetchO3(Carbon $untilDateTime, Carbon $fromDateTime = null): string
     {
-        $query = new O3Query();
+        $query = new O3Query($untilDateTime, $fromDateTime);
 
         return $this->fetchMeasurement($query);
     }
 
-    protected function fetchCO(Carbon $endDateTime, Carbon $startDateTime = null): string
+    protected function fetchCO(Carbon $untilDateTime, Carbon $fromDateTime = null): string
     {
-        $query = new COQuery();
+        $query = new COQuery($untilDateTime, $fromDateTime);
 
         return $this->fetchMeasurement($query);
     }
