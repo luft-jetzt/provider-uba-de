@@ -5,6 +5,7 @@ namespace App\Command;
 use App\SourceFetcher\Parser\ParserInterface;
 use App\SourceFetcher\SourceFetcherInterface;
 use Caldera\LuftApiBundle\Api\ValueApiInterface;
+use Caldera\LuftApiBundle\Model\Value;
 use Carbon\Carbon;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -78,6 +79,21 @@ class LuftFetchCommand extends Command
             $valueList = $this->parser->parse($dataString, $pollutantIdentifier);
 
             $this->valueApi->putValues($valueList);
+
+            if ($output->isVerbose()) {
+                $io->table([
+                    'Station Code',
+                    'Date Time',
+                    'Value',
+                ], array_map(function (Value $value): array {
+                    return [
+                        $value->getStationCode(),
+                        $value->getDateTime()->format('Y-m-d H:i:s'),
+                        $value->getValue(),
+                    ];
+                }, $valueList)
+                );
+            }
 
             $io->success(sprintf('Fetched %d values for pollutant "%s"', count($valueList), $pollutantIdentifier));
         }
