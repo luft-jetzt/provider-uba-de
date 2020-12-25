@@ -6,5 +6,5 @@ class COQuery extends AbstractQuery
 {
     protected int $component = 2;
 
-    protected array $scope = [4, 5];
+    protected int $scope = 4;
 }

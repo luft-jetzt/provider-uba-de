@@ -6,5 +6,5 @@ class O3Query extends AbstractQuery
 {
     protected int $component = 3;
 
-    protected array $scope = [2, 3, 4, 5];
+    protected int $scope = 2;
 }
