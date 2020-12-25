@@ -8,7 +8,7 @@ abstract class AbstractQuery implements QueryInterface
 {
     protected int $component;
 
-    protected array $scope = [];
+    protected int $scope;
 
     protected Carbon $fromDateTime;
 
@@ -25,7 +25,7 @@ abstract class AbstractQuery implements QueryInterface
         return $this->component;
     }
 
-    public function getScope(): array
+    public function getScope(): int
     {
         return $this->scope;
     }

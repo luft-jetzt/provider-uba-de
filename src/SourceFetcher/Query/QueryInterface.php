@@ -8,7 +8,7 @@ interface QueryInterface
 {
     public function getComponent(): int;
 
-    public function getScope(): array;
+    public function getScope(): int;
 
     public function getFromDateTime(): Carbon;
 
