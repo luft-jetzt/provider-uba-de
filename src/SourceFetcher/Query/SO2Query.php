@@ -6,5 +6,5 @@ class SO2Query extends AbstractQuery
 {
     protected int $component = 4;
 
-    protected array $scope = [1, 2, 3];
+    protected int $scope = 2;
 }

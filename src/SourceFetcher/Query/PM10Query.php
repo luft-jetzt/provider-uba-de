@@ -6,5 +6,5 @@ class PM10Query extends AbstractQuery
 {
     protected int $component = 1;
 
-    protected array $scope = [1];
+    protected int $scope = 2;
 }

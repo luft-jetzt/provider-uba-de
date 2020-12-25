@@ -6,5 +6,5 @@ class NO2Query extends AbstractQuery
 {
     protected int $component = 5;
 
-    protected array $scope = [2, 3];
+    protected int $scope = 2;
 }
