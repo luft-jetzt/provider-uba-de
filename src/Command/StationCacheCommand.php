@@ -37,10 +37,14 @@ class StationCacheCommand extends Command
 
         $this->stationManager->cacheStationList($stationList);
 
-        $io->table(['Station Code', 'UBA Station Id',], array_map(function (Station $station): array
-        {
-            return [$station->getStationCode(), $station->getUbaStationId(),];
-        }, $stationList));
+        if ($output->isVerbose()) {
+            $io->table(['Station Code', 'UBA Station Id',], array_map(function (Station $station): array
+            {
+                return [$station->getStationCode(), $station->getUbaStationId(),];
+            }, $stationList));
+        }
+
+        $io->success(sprintf('Cached %d stations from luft api', count($stationList)));
 
         return Command::SUCCESS;
     }
