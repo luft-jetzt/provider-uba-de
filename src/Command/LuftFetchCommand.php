@@ -38,6 +38,7 @@ class LuftFetchCommand extends Command
             ->addArgument('pollutants', InputArgument::IS_ARRAY, 'List pollutants to fetch')
             ->addOption('from-date-time', null,InputOption::VALUE_REQUIRED, 'Only fetch values after this date time')
             ->addOption('until-date-time', null, InputOption::VALUE_REQUIRED, 'Only fetch values before this date time')
+            ->addOption('tag', null, InputOption::VALUE_REQUIRED, 'Add a tag to fetched values')
         ;
     }
 
@@ -78,6 +79,13 @@ class LuftFetchCommand extends Command
 
             $valueList = $this->parser->parse($dataString, $pollutantIdentifier);
 
+            if ($tag = $input->getOption('tag')) {
+                /** @var Value $value */
+                foreach ($valueList as $value) {
+                    $value->setTag($tag);
+                }
+            }
+
             $this->valueApi->putValues($valueList);
 
             if ($output->isVerbose()) {
@@ -85,11 +93,13 @@ class LuftFetchCommand extends Command
                     'Station Code',
                     'Date Time',
                     'Value',
+                    'Tag',
                 ], array_map(function (Value $value): array {
                     return [
                         $value->getStationCode(),
                         $value->getDateTime()->format('Y-m-d H:i:s'),
                         $value->getValue(),
+                        $value->getTag(),
                     ];
                 }, $valueList)
                 );
