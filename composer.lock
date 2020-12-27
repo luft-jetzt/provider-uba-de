@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "304822d038416f87a609caa3c34f6cee",
+    "content-hash": "4222fa0cb27c823db69103269f3a7f53",
     "packages": [
         {
             "name": "autumndev/jms-serializer-carbon",
@@ -743,16 +743,16 @@
         },
         {
             "name": "luft-jetzt/luft-api-bundle",
-            "version": "0.1.1",
+            "version": "dev-tag",
             "source": {
                 "type": "git",
                 "url": "https://github.com/luft-jetzt/luft-api-bundle.git",
-                "reference": "ee1962dc9b51b3d42cd0d52b02857e58e5708463"
+                "reference": "776cd25fe37c861925ff0ef9f08b0854a5df81d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/luft-jetzt/luft-api-bundle/zipball/ee1962dc9b51b3d42cd0d52b02857e58e5708463",
-                "reference": "ee1962dc9b51b3d42cd0d52b02857e58e5708463",
+                "url": "https://api.github.com/repos/luft-jetzt/luft-api-bundle/zipball/776cd25fe37c861925ff0ef9f08b0854a5df81d8",
+                "reference": "776cd25fe37c861925ff0ef9f08b0854a5df81d8",
                 "shasum": ""
             },
             "require": {
@@ -775,9 +775,9 @@
             ],
             "support": {
                 "issues": "https://github.com/luft-jetzt/luft-api-bundle/issues",
-                "source": "https://github.com/luft-jetzt/luft-api-bundle/tree/0.1.1"
+                "source": "https://github.com/luft-jetzt/luft-api-bundle/tree/tag"
             },
-            "time": "2020-12-19T12:25:30+00:00"
+            "time": "2020-12-26T09:15:36+00:00"
         },
         {
             "name": "nesbot/carbon",
@@ -3930,7 +3930,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "luft-jetzt/luft-api-bundle": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
