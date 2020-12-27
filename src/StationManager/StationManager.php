@@ -4,7 +4,7 @@ namespace App\StationManager;
 
 use App\StationCache\StationCacheInterface;
 use Caldera\LuftApiBundle\Api\StationApiInterface;
-use Caldera\LuftApiBundle\Model\Station;
+use Caldera\LuftModel\Model\Station;
 use JMS\Serializer\SerializerInterface;
 
 class StationManager implements StationManagerInterface
