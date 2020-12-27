@@ -3,7 +3,7 @@
 namespace App\StationLoader;
 
 use Caldera\LuftApiBundle\Api\StationApiInterface;
-use Caldera\LuftApiBundle\Model\Station;
+use Caldera\LuftModel\Model\Station;
 
 class StationLoader implements StationLoaderInterface
 {

@@ -5,7 +5,7 @@ namespace App\Command;
 use App\SourceFetcher\Parser\ParserInterface;
 use App\SourceFetcher\SourceFetcherInterface;
 use Caldera\LuftApiBundle\Api\ValueApiInterface;
-use Caldera\LuftApiBundle\Model\Value;
+use Caldera\LuftModel\Model\Value;
 use Carbon\Carbon;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
