@@ -55,6 +55,9 @@
     "luft-jetzt/luft-api-bundle": {
         "version": "dev-main"
     },
+    "luft-jetzt/luft-model": {
+        "version": "dev-extract"
+    },
     "nesbot/carbon": {
         "version": "2.41.5"
     },
