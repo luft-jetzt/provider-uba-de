@@ -3,8 +3,8 @@
 namespace App\SourceFetcher\Parser;
 
 use App\StationManager\StationManagerInterface;
-use Caldera\LuftApiBundle\Model\Station;
-use Caldera\LuftApiBundle\Model\Value;
+use Caldera\LuftModel\Model\Station;
+use Caldera\LuftModel\Model\Value;
 use Carbon\Carbon;
 
 class Parser implements ParserInterface

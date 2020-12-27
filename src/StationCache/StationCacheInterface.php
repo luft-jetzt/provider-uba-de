@@ -2,7 +2,7 @@
 
 namespace App\StationCache;
 
-use Caldera\LuftApiBundle\Model\Station;
+use Caldera\LuftModel\Model\Station;
 
 interface StationCacheInterface
 {

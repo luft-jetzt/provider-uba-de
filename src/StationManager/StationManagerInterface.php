@@ -2,7 +2,7 @@
 
 namespace App\StationManager;
 
-use Caldera\LuftApiBundle\Model\Station;
+use Caldera\LuftModel\Model\Station;
 
 interface StationManagerInterface
 {
