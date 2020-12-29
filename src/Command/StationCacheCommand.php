@@ -25,7 +25,7 @@ class StationCacheCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Add a short description for your command')
+            ->setDescription('Cache stations for fetching luft values')
         ;
     }
 

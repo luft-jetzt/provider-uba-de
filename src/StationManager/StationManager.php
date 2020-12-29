@@ -22,7 +22,7 @@ class StationManager implements StationManagerInterface
 
     public function loadStationList(): array
     {
-        return $this->stationApi->getStations();
+        return $this->stationApi->getStations('uba_de');
     }
 
     public function cacheStationList(array $stationList): void
