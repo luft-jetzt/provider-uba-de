@@ -53,7 +53,7 @@
         ]
     },
     "luft-jetzt/luft-api-bundle": {
-        "version": "dev-main"
+        "version": "0.3"
     },
     "luft-jetzt/luft-model": {
         "version": "dev-extract"

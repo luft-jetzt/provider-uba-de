@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "48460a6dba2a8740c4524878e41321fc",
+    "content-hash": "3d852fdfc997240bae27e089c4d8f5c3",
     "packages": [
         {
             "name": "autumndev/jms-serializer-carbon",
@@ -743,22 +743,22 @@
         },
         {
             "name": "luft-jetzt/luft-api-bundle",
-            "version": "0.2",
+            "version": "0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/luft-jetzt/luft-api-bundle.git",
-                "reference": "2882c74246c66834df53322fd060d6af0a3fe2f5"
+                "reference": "f3ffdcf4f4e00b67bd2f2b98a92fc018830b3de7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/luft-jetzt/luft-api-bundle/zipball/2882c74246c66834df53322fd060d6af0a3fe2f5",
-                "reference": "2882c74246c66834df53322fd060d6af0a3fe2f5",
+                "url": "https://api.github.com/repos/luft-jetzt/luft-api-bundle/zipball/f3ffdcf4f4e00b67bd2f2b98a92fc018830b3de7",
+                "reference": "f3ffdcf4f4e00b67bd2f2b98a92fc018830b3de7",
                 "shasum": ""
             },
             "require": {
                 "guzzlehttp/guzzle": "^7.2",
                 "jms/serializer-bundle": "^3.7",
-                "luft-jetzt/luft-model": "0.1",
+                "luft-jetzt/luft-model": ">=0.1",
                 "php": "^7.4",
                 "symfony/framework-bundle": "^5.0"
             },
@@ -777,22 +777,22 @@
             ],
             "support": {
                 "issues": "https://github.com/luft-jetzt/luft-api-bundle/issues",
-                "source": "https://github.com/luft-jetzt/luft-api-bundle/tree/0.2"
+                "source": "https://github.com/luft-jetzt/luft-api-bundle/tree/0.3"
             },
-            "time": "2020-12-27T22:29:30+00:00"
+            "time": "2020-12-29T02:54:06+00:00"
         },
         {
             "name": "luft-jetzt/luft-model",
-            "version": "0.1",
+            "version": "0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/luft-jetzt/luft-model.git",
-                "reference": "42548619f9b1dc5b2da2d41997ac56d2cb8ec923"
+                "reference": "880582d8fff332834dc708d23b31605f0de1ecd5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/luft-jetzt/luft-model/zipball/42548619f9b1dc5b2da2d41997ac56d2cb8ec923",
-                "reference": "42548619f9b1dc5b2da2d41997ac56d2cb8ec923",
+                "url": "https://api.github.com/repos/luft-jetzt/luft-model/zipball/880582d8fff332834dc708d23b31605f0de1ecd5",
+                "reference": "880582d8fff332834dc708d23b31605f0de1ecd5",
                 "shasum": ""
             },
             "require": {
@@ -814,9 +814,9 @@
             ],
             "support": {
                 "issues": "https://github.com/luft-jetzt/luft-model/issues",
-                "source": "https://github.com/luft-jetzt/luft-model/tree/0.1"
+                "source": "https://github.com/luft-jetzt/luft-model/tree/0.2"
             },
-            "time": "2020-12-27T22:23:56+00:00"
+            "time": "2020-12-29T02:06:15+00:00"
         },
         {
             "name": "nesbot/carbon",
