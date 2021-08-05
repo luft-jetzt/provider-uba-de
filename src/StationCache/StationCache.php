@@ -6,6 +6,7 @@ use Caldera\LuftModel\Model\Station;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Component\Cache\Adapter\RedisAdapter;
 
 class StationCache implements StationCacheInterface
 {
@@ -17,7 +18,11 @@ class StationCache implements StationCacheInterface
     {
         $this->serializer = $serializer;
 
-        $this->cache = new FilesystemAdapter(self::NAMESPACE, self::TTL);
+        $client = RedisAdapter::createConnection(
+            'redis://localhost'
+        );
+
+        $this->cache = new RedisAdapter($client, self::NAMESPACE, self::TTL);
     }
 
     public function addStation(Station $station): self
