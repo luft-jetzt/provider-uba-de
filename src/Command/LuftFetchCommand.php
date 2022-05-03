@@ -22,13 +22,13 @@ class LuftFetchCommand extends Command
     protected ParserInterface $parser;
     protected ValueApiInterface $valueApi;
 
-    public function __construct(string $name = null, SourceFetcherInterface $sourceFetcher, ParserInterface $parser, ValueApiInterface $valueApi)
+    public function __construct(SourceFetcherInterface $sourceFetcher, ParserInterface $parser, ValueApiInterface $valueApi)
     {
         $this->sourceFetcher = $sourceFetcher;
         $this->parser = $parser;
         $this->valueApi = $valueApi;
 
-        parent::__construct($name);
+        parent::__construct();
     }
 
     protected function configure(): void

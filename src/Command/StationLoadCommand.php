@@ -18,12 +18,12 @@ class StationLoadCommand extends Command
     protected StationLoaderInterface $stationLoader;
     protected StationApiInterface $stationApi;
 
-    public function __construct(string $name = null, StationLoaderInterface $stationLoader, StationApiInterface $stationApi)
+    public function __construct(StationLoaderInterface $stationLoader, StationApiInterface $stationApi)
     {
         $this->stationLoader = $stationLoader;
         $this->stationApi = $stationApi;
 
-        parent::__construct($name);
+        parent::__construct();
     }
 
     protected function configure()

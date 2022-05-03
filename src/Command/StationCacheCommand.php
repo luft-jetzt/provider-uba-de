@@ -15,11 +15,11 @@ class StationCacheCommand extends Command
 
     protected StationManagerInterface $stationManager;
 
-    public function __construct(string $name = null, StationManagerInterface $stationManager)
+    public function __construct(StationManagerInterface $stationManager)
     {
         $this->stationManager = $stationManager;
 
-        parent::__construct($name);
+        parent::__construct();
     }
 
     protected function configure()
