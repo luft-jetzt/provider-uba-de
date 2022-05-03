@@ -19,7 +19,7 @@ class StationCache implements StationCacheInterface
         $this->serializer = $serializer;
 
         $client = RedisAdapter::createConnection(
-            'redis://localhost'
+            'redis://localhost:6379'
         );
 
         $this->cache = new RedisAdapter($client, self::NAMESPACE, self::TTL);
@@ -47,4 +47,3 @@ class StationCache implements StationCacheInterface
         return $station;
     }
 }
-
