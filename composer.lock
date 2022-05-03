@@ -4,25 +4,26 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4b1019e617347f32827f844e7187d707",
+    "content-hash": "914b5499d4f08cf4444f30de2aba2e65",
     "packages": [
         {
             "name": "autumndev/jms-serializer-carbon",
-            "version": "1.2.1",
+            "version": "v3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/autumndev/jms-serializer-carbon.git",
-                "reference": "740221e358eee3190a89b054a88c46d0e334a838"
+                "reference": "da788ef588b9ca3c7ff3182976fdaf2a4d6288ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/autumndev/jms-serializer-carbon/zipball/740221e358eee3190a89b054a88c46d0e334a838",
-                "reference": "740221e358eee3190a89b054a88c46d0e334a838",
+                "url": "https://api.github.com/repos/autumndev/jms-serializer-carbon/zipball/da788ef588b9ca3c7ff3182976fdaf2a4d6288ab",
+                "reference": "da788ef588b9ca3c7ff3182976fdaf2a4d6288ab",
                 "shasum": ""
             },
             "require": {
                 "jms/serializer": "^2.0 || ^3.0",
-                "nesbot/carbon": "^2.5"
+                "nesbot/carbon": "^2.5",
+                "php": "^7.1 || ^8.0"
             },
             "type": "library",
             "autoload": {
@@ -32,7 +33,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "GNU General Public License v2.0"
+                "GPL-3.0-or-later"
             ],
             "authors": [
                 {
@@ -43,9 +44,9 @@
             "description": "Carbon Serialization or JSM Serializer",
             "support": {
                 "issues": "https://github.com/autumndev/jms-serializer-carbon/issues",
-                "source": "https://github.com/autumndev/jms-serializer-carbon/tree/1.2.1"
+                "source": "https://github.com/autumndev/jms-serializer-carbon/tree/v3.2"
             },
-            "time": "2020-07-23T07:26:30+00:00"
+            "time": "2021-02-26T15:50:34+00:00"
         },
         {
             "name": "doctrine/annotations",
