@@ -39,4 +39,3 @@ class StationManager implements StationManagerInterface
         return $this->stationCache->getStationByUbaStationId($ubaStationId);
     }
 }
-
