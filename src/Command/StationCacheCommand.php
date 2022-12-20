@@ -13,12 +13,8 @@ class StationCacheCommand extends Command
 {
     protected static $defaultName = 'station:cache';
 
-    protected StationManagerInterface $stationManager;
-
-    public function __construct(StationManagerInterface $stationManager)
+    public function __construct(protected StationManagerInterface $stationManager)
     {
-        $this->stationManager = $stationManager;
-
         parent::__construct();
     }
 

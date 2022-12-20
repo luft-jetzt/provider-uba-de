@@ -13,14 +13,8 @@ class StationLoadCommand extends Command
 {
     protected static $defaultName = 'station:load';
 
-    protected StationLoaderInterface $stationLoader;
-    protected StationApiInterface $stationApi;
-
-    public function __construct(StationLoaderInterface $stationLoader, StationApiInterface $stationApi)
+    public function __construct(protected StationLoaderInterface $stationLoader, protected StationApiInterface $stationApi)
     {
-        $this->stationLoader = $stationLoader;
-        $this->stationApi = $stationApi;
-
         parent::__construct();
     }
 
