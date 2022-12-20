@@ -11,11 +11,9 @@ class Parser implements ParserInterface
 {
     protected array $stationList;
 
-    protected StationManagerInterface $stationManager;
-
-    public function __construct(StationManagerInterface $stationManager)
+    public function __construct(protected StationManagerInterface $stationManager)
     {
-        $this->stationManager = $stationManager;
+
     }
 
     public function parse(string $responseString, string $pollutant): array

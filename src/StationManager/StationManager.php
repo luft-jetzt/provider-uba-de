@@ -9,15 +9,12 @@ use JMS\Serializer\SerializerInterface;
 
 class StationManager implements StationManagerInterface
 {
-    protected StationCacheInterface $stationCache;
-    protected SerializerInterface $serializer;
-    protected StationApiInterface $stationApi;
-
-    public function __construct(SerializerInterface $serializer, StationApiInterface $stationApi, StationCacheInterface $stationCache)
+    public function __construct(
+        protected SerializerInterface $serializer,
+        protected StationApiInterface $stationApi,
+        protected StationCacheInterface $stationCache)
     {
-        $this->serializer = $serializer;
-        $this->stationApi = $stationApi;
-        $this->stationCache = $stationCache;
+
     }
 
     public function loadStationList(): array
@@ -42,4 +39,3 @@ class StationManager implements StationManagerInterface
         return $this->stationCache->getStationByUbaStationId($ubaStationId);
     }
 }
-

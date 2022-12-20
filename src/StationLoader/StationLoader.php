@@ -27,11 +27,9 @@ class StationLoader implements StationLoaderInterface
 
     protected array $ubaStationList = [];
 
-    protected StationApiInterface $stationApi;
-
-    public function __construct(StationApiInterface $stationApi)
+    public function __construct(protected StationApiInterface $stationApi)
     {
-        $this->stationApi = $stationApi;
+
     }
 
     protected function stationExists(StationLoadResult $stationLoadResult, string $stationCode): bool

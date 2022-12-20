@@ -16,12 +16,10 @@ use GuzzleHttp\Client;
 
 class SourceFetcher implements SourceFetcherInterface
 {
-    protected ParserInterface $parser;
     protected Client $client;
 
-    public function __construct(ParserInterface $parser)
+    public function __construct(protected ParserInterface $parser)
     {
-        $this->parser = $parser;
         $this->client = new Client([
             'base_uri' => 'https://localhost:8000/',
             'verify' => false,
