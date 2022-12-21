@@ -7,6 +7,7 @@ use App\SourceFetcher\SourceFetcherInterface;
 use Caldera\LuftApiBundle\Api\ValueApiInterface;
 use Caldera\LuftModel\Model\Value;
 use Carbon\Carbon;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -14,27 +15,20 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[AsCommand(
+    name: 'luft:fetch',
+    description: 'Fetch pollutants from uba api'
+)]
 class LuftFetchCommand extends Command
 {
-    protected static $defaultName = 'luft:fetch';
-
-    protected SourceFetcherInterface $sourceFetcher;
-    protected ParserInterface $parser;
-    protected ValueApiInterface $valueApi;
-
-    public function __construct(SourceFetcherInterface $sourceFetcher, ParserInterface $parser, ValueApiInterface $valueApi)
+    public function __construct(protected SourceFetcherInterface $sourceFetcher, protected ParserInterface $parser, protected ValueApiInterface $valueApi)
     {
-        $this->sourceFetcher = $sourceFetcher;
-        $this->parser = $parser;
-        $this->valueApi = $valueApi;
-
         parent::__construct();
     }
 
     protected function configure(): void
     {
         $this
-            ->setDescription('Fetch pollutants from uba api')
             ->addArgument('pollutants', InputArgument::IS_ARRAY, 'List pollutants to fetch')
             ->addOption('from-date-time', null,InputOption::VALUE_REQUIRED, 'Only fetch values after this date time')
             ->addOption('until-date-time', null, InputOption::VALUE_REQUIRED, 'Only fetch values before this date time')
