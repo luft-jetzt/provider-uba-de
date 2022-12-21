@@ -4,25 +4,21 @@ namespace App\Command;
 
 use App\StationManager\StationManagerInterface;
 use Caldera\LuftModel\Model\Station;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[AsCommand(
+    name: 'station:cache',
+    description: 'Cache stations for fetching luft values'
+)]
 class StationCacheCommand extends Command
 {
-    protected static $defaultName = 'station:cache';
-
     public function __construct(protected StationManagerInterface $stationManager)
     {
         parent::__construct();
-    }
-
-    protected function configure()
-    {
-        $this
-            ->setDescription('Cache stations for fetching luft values')
-        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
