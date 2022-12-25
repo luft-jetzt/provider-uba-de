@@ -14,11 +14,7 @@ class StationCache implements StationCacheInterface
 
     public function __construct(protected SerializerInterface $serializer)
     {
-        $client = RedisAdapter::createConnection(
-            'redis://localhost:6379'
-        );
-
-        $this->cache = new RedisAdapter($client, self::NAMESPACE, self::TTL);
+        $this->cache = new FilesystemAdapter(self::NAMESPACE, self::TTL);
     }
 
     public function addStation(Station $station): self
