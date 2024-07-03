@@ -18,7 +18,7 @@ class SourceFetcher implements SourceFetcherInterface
 {
     protected Client $client;
 
-    public function __construct(protected ParserInterface $parser)
+    public function __construct(protected readonly ParserInterface $parser)
     {
         $this->client = new Client([
             'base_uri' => 'https://localhost:8000/',

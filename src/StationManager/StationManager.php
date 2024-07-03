@@ -10,9 +10,10 @@ use JMS\Serializer\SerializerInterface;
 class StationManager implements StationManagerInterface
 {
     public function __construct(
-        protected SerializerInterface $serializer,
-        protected StationApiInterface $stationApi,
-        protected StationCacheInterface $stationCache)
+        protected readonly SerializerInterface $serializer,
+        protected readonly StationApiInterface $stationApi,
+        protected readonly StationCacheInterface $stationCache
+    )
     {
 
     }
