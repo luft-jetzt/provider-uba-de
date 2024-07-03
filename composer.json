@@ -6,7 +6,6 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "autumndev/jms-serializer-carbon": "^3.3",
-        "guzzlehttp/guzzle": "^7.2",
         "jms/serializer-bundle": "^5.4.0",
         "luft-jetzt/luft-api-bundle": "^0.8.1",
         "luft-jetzt/luft-model": "^0.4",

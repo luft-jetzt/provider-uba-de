@@ -12,18 +12,12 @@ use App\SourceFetcher\Query\QueryInterface;
 use App\SourceFetcher\Query\SO2Query;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
-use GuzzleHttp\Client;
 
 class SourceFetcher implements SourceFetcherInterface
 {
-    protected Client $client;
-
     public function __construct(protected readonly ParserInterface $parser)
     {
-        $this->client = new Client([
-            'base_uri' => 'https://localhost:8000/',
-            'verify' => false,
-        ]);
+
     }
 
     public function fetch(string $pollutantIdentifier, Carbon $untilDateTime = null, Carbon $fromDateTime = null): string
@@ -86,8 +80,8 @@ class SourceFetcher implements SourceFetcherInterface
 
         $queryString = sprintf('https://www.umweltbundesamt.de/api/air_data/v2/measures/json?%s', $data);
 
-        $response = $this->client->get($queryString);
+        $response = file_get_contents($queryString);
 
-        return $response->getBody()->getContents();
+        return $response;
     }
 }
