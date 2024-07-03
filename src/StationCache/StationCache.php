@@ -3,16 +3,14 @@
 namespace App\StationCache;
 
 use Caldera\LuftModel\Model\Station;
-use JMS\Serializer\SerializerInterface;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
-use Symfony\Component\Cache\Adapter\RedisAdapter;
 
 class StationCache implements StationCacheInterface
 {
     protected AdapterInterface $cache;
 
-    public function __construct(protected SerializerInterface $serializer)
+    public function __construct()
     {
         $this->cache = new FilesystemAdapter(self::NAMESPACE, self::TTL);
     }

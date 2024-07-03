@@ -5,12 +5,10 @@ namespace App\StationManager;
 use App\StationCache\StationCacheInterface;
 use Caldera\LuftApiBundle\Api\StationApiInterface;
 use Caldera\LuftModel\Model\Station;
-use JMS\Serializer\SerializerInterface;
 
 class StationManager implements StationManagerInterface
 {
     public function __construct(
-        protected SerializerInterface $serializer,
         protected StationApiInterface $stationApi,
         protected StationCacheInterface $stationCache)
     {
