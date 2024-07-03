@@ -10,7 +10,7 @@ class Parser implements ParserInterface
 {
     protected array $stationList;
 
-    public function __construct(protected StationManagerInterface $stationManager)
+    public function __construct(protected readonly StationManagerInterface $stationManager)
     {
 
     }

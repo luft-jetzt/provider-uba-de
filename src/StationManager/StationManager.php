@@ -9,8 +9,9 @@ use Caldera\LuftModel\Model\Station;
 class StationManager implements StationManagerInterface
 {
     public function __construct(
-        protected StationApiInterface $stationApi,
-        protected StationCacheInterface $stationCache)
+        protected readonly StationApiInterface $stationApi,
+        protected readonly StationCacheInterface $stationCache
+    )
     {
 
     }
