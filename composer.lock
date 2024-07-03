@@ -4,50 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2cc8c9d8dcebdd5f049ef4d503eca568",
+    "content-hash": "b58caab67effed102d9daa572fd1eaa4",
     "packages": [
-        {
-            "name": "autumndev/jms-serializer-carbon",
-            "version": "v3.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/scott-davidjones/jms-serializer-carbon.git",
-                "reference": "39f8db6f8a3c94961afcf45d554050f58f7b39e3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/scott-davidjones/jms-serializer-carbon/zipball/39f8db6f8a3c94961afcf45d554050f58f7b39e3",
-                "reference": "39f8db6f8a3c94961afcf45d554050f58f7b39e3",
-                "shasum": ""
-            },
-            "require": {
-                "jms/serializer": "^2.0 || ^3.0",
-                "nesbot/carbon": "^2.5",
-                "php": "^7.1 || ^8.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "AutumnDev": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-3.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "autumndev",
-                    "email": "sayhi@autumndev.co.uk"
-                }
-            ],
-            "description": "Carbon Serialization or JSM Serializer",
-            "support": {
-                "issues": "https://github.com/scott-davidjones/jms-serializer-carbon/issues",
-                "source": "https://github.com/scott-davidjones/jms-serializer-carbon/tree/v3.3"
-            },
-            "time": "2024-03-28T10:07:19+00:00"
-        },
         {
             "name": "carbonphp/carbon-doctrine-types",
             "version": "3.2.0",
