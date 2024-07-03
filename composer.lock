@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2cc8c9d8dcebdd5f049ef4d503eca568",
+    "content-hash": "a8e25856536fa2fc0367de542ac79ced",
     "packages": [
         {
             "name": "autumndev/jms-serializer-carbon",
