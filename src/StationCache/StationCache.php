@@ -12,7 +12,7 @@ class StationCache implements StationCacheInterface
 
     public function __construct()
     {
-        $this->cache = new FilesystemAdapter(self::NAMESPACE, self::TTL);
+        $this->cache = new FilesystemAdapter(self::NAMESPACE, self::TTL, self::CACHE_DIRECTORY);
     }
 
     public function addStation(Station $station): self
