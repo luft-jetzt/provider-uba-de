@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "179e2ded7008e61da56d7c66c8004624",
+    "content-hash": "10b24413231733611a103f365992f7fd",
     "packages": [
         {
             "name": "luft-jetzt/luft-api-bundle",
