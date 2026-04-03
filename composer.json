@@ -5,7 +5,7 @@
         "php": "^8.5",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "luft-jetzt/luft-api-bundle": "^0.10",
+        "luft-jetzt/luft-api-bundle": "^0.11",
         "luft-jetzt/luft-model": "^0.5",
         "symfony/console": "^8.0",
         "symfony/dotenv": "^8.0",
