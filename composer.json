@@ -5,15 +5,15 @@
         "php": "^8.4",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "luft-jetzt/luft-api-bundle": "^0.9",
+        "luft-jetzt/luft-api-bundle": "^0.10",
         "luft-jetzt/luft-model": "^0.5",
-        "symfony/console": "^7.4",
-        "symfony/dotenv": "^7.4",
+        "symfony/console": "^8.0",
+        "symfony/dotenv": "^8.0",
         "symfony/flex": "^2.10",
-        "symfony/framework-bundle": "^7.4",
-        "symfony/http-client": "^7.4",
-        "symfony/runtime": "^7.4",
-        "symfony/yaml": "^7.4"
+        "symfony/framework-bundle": "^8.0",
+        "symfony/http-client": "^8.0",
+        "symfony/runtime": "^8.0",
+        "symfony/yaml": "^8.0"
     },
     "config": {
         "optimize-autoloader": true,
@@ -57,7 +57,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "^7.4"
+            "require": "^8.0"
         }
     },
     "require-dev": {
