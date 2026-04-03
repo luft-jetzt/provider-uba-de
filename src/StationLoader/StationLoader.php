@@ -75,7 +75,7 @@ class StationLoader implements StationLoaderInterface
 
                 $stationLoadResult->addNewStation($station);
             } elseif ($this->update === true) {
-                $station = $this->existingStationList[$stationCode];
+                $station = $stationLoadResult->getExistingStationList()[$stationCode];
 
                 $this->mergeStation($station, $stationData);
 
@@ -125,25 +125,21 @@ class StationLoader implements StationLoaderInterface
 
     protected function mapAreaType(string $areaType): string
     {
-        switch ($areaType) {
-            case 'vorstädtisch':
-                return 'suburban';
-            case 'städtisch':
-                return 'urban';
-            case 'ländlich':
-                return 'rural';
-        }
+        return match ($areaType) {
+            'vorstädtisch' => 'suburban',
+            'städtisch' => 'urban',
+            'ländlich' => 'rural',
+            default => throw new \InvalidArgumentException(sprintf('Unknown area type: %s', $areaType)),
+        };
     }
 
     protected function mapStationType(string $stationType): string
     {
-        switch ($stationType) {
-            case 'Hintergrund':
-                return 'background';
-            case 'Verkehr':
-                return 'traffic';
-            case 'Industrie':
-                return 'industrial';
-        }
+        return match ($stationType) {
+            'Hintergrund' => 'background',
+            'Verkehr' => 'traffic',
+            'Industrie' => 'industrial',
+            default => throw new \InvalidArgumentException(sprintf('Unknown station type: %s', $stationType)),
+        };
     }
 }
