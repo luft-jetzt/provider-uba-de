@@ -3,7 +3,6 @@
 namespace App\SourceFetcher;
 
 use App\SourceFetcher\QueryBuilder\QueryBuilder;
-use App\SourceFetcher\Parser\ParserInterface;
 use App\SourceFetcher\Query\COQuery;
 use App\SourceFetcher\Query\NO2Query;
 use App\SourceFetcher\Query\O3Query;
@@ -17,7 +16,6 @@ class SourceFetcher implements SourceFetcherInterface
     private const API_URL = 'https://www.umweltbundesamt.de/api/air_data/v2/measures/json';
 
     public function __construct(
-        protected readonly ParserInterface $parser,
         private readonly HttpClientInterface $httpClient,
     ) {
     }

@@ -3,12 +3,11 @@
 namespace App\StationCache;
 
 use Caldera\LuftModel\Model\Station;
-use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
 class StationCache implements StationCacheInterface
 {
-    protected AdapterInterface $cache;
+    private readonly FilesystemAdapter $cache;
 
     public function __construct()
     {
@@ -32,8 +31,10 @@ class StationCache implements StationCacheInterface
 
         $item = $this->cache->getItem($key);
 
-        $station = $item->get();
+        if (!$item->isHit()) {
+            return null;
+        }
 
-        return $station;
+        return $item->get();
     }
 }
