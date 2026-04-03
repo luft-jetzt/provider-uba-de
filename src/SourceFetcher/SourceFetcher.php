@@ -10,8 +10,6 @@ use App\SourceFetcher\Query\O3Query;
 use App\SourceFetcher\Query\PM10Query;
 use App\SourceFetcher\Query\QueryInterface;
 use App\SourceFetcher\Query\SO2Query;
-use Carbon\Carbon;
-use Carbon\CarbonInterval;
 
 class SourceFetcher implements SourceFetcherInterface
 {
@@ -20,49 +18,49 @@ class SourceFetcher implements SourceFetcherInterface
 
     }
 
-    public function fetch(string $pollutantIdentifier, Carbon $untilDateTime = null, Carbon $fromDateTime = null): string
+    public function fetch(string $pollutantIdentifier, ?\DateTimeImmutable $untilDateTime = null, ?\DateTimeImmutable $fromDateTime = null): string
     {
         if (!$untilDateTime) {
-            $untilDateTime = new Carbon();
+            $untilDateTime = new \DateTimeImmutable();
         }
 
         if (!$fromDateTime) {
-            $fromDateTime = $untilDateTime->sub(new CarbonInterval('PT2H'));
+            $fromDateTime = $untilDateTime->sub(new \DateInterval('PT2H'));
         }
 
         $fetchMethodName = sprintf('fetch%s', strtoupper($pollutantIdentifier));
         return $this->$fetchMethodName($untilDateTime, $fromDateTime);
     }
 
-    protected function fetchPM10(Carbon $untilDateTime, Carbon $fromDateTime = null): string
+    protected function fetchPM10(\DateTimeImmutable $untilDateTime, ?\DateTimeImmutable $fromDateTime = null): string
     {
         $query = new PM10Query($untilDateTime, $fromDateTime);
 
         return $this->fetchMeasurement($query);
     }
 
-    protected function fetchSO2(Carbon $untilDateTime, Carbon $fromDateTime = null): string
+    protected function fetchSO2(\DateTimeImmutable $untilDateTime, ?\DateTimeImmutable $fromDateTime = null): string
     {
         $query = new SO2Query($untilDateTime, $fromDateTime);
 
         return $this->fetchMeasurement($query);
     }
 
-    protected function fetchNO2(Carbon $untilDateTime, Carbon $fromDateTime = null): string
+    protected function fetchNO2(\DateTimeImmutable $untilDateTime, ?\DateTimeImmutable $fromDateTime = null): string
     {
         $query = new NO2Query($untilDateTime, $fromDateTime);
 
         return $this->fetchMeasurement($query);
     }
 
-    protected function fetchO3(Carbon $untilDateTime, Carbon $fromDateTime = null): string
+    protected function fetchO3(\DateTimeImmutable $untilDateTime, ?\DateTimeImmutable $fromDateTime = null): string
     {
         $query = new O3Query($untilDateTime, $fromDateTime);
 
         return $this->fetchMeasurement($query);
     }
 
-    protected function fetchCO(Carbon $untilDateTime, Carbon $fromDateTime = null): string
+    protected function fetchCO(\DateTimeImmutable $untilDateTime, ?\DateTimeImmutable $fromDateTime = null): string
     {
         $query = new COQuery($untilDateTime, $fromDateTime);
 

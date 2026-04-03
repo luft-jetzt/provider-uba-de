@@ -2,19 +2,17 @@
 
 namespace App\SourceFetcher\Query;
 
-use Carbon\Carbon;
-
 interface QueryInterface
 {
     public function getComponent(): int;
 
     public function getScope(): int;
 
-    public function getFromDateTime(): Carbon;
+    public function getFromDateTime(): \DateTimeImmutable;
 
-    public function setFromDateTime(Carbon $fromDateTime): QueryInterface;
+    public function setFromDateTime(\DateTimeImmutable $fromDateTime): QueryInterface;
 
-    public function getUntilDateTime(): Carbon;
+    public function getUntilDateTime(): \DateTimeImmutable;
 
-    public function setUntilDateTime(Carbon $untilDateTime): QueryInterface;
+    public function setUntilDateTime(\DateTimeImmutable $untilDateTime): QueryInterface;
 }

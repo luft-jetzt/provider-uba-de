@@ -6,7 +6,6 @@ use App\SourceFetcher\Parser\ParserInterface;
 use App\SourceFetcher\SourceFetcherInterface;
 use Caldera\LuftApiBundle\Api\ValueApiInterface;
 use Caldera\LuftModel\Model\Value;
-use Carbon\Carbon;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -58,13 +57,13 @@ class LuftFetchCommand extends Command
             }
 
             if ($input->getOption('from-date-time')) {
-                $fromDateTime = new Carbon($input->getOption('from-date-time'));
+                $fromDateTime = new \DateTimeImmutable($input->getOption('from-date-time'));
             } else {
                 $fromDateTime = null;
             }
 
             if ($input->getOption('until-date-time')) {
-                $untilDateTime = new Carbon($input->getOption('until-date-time'));
+                $untilDateTime = new \DateTimeImmutable($input->getOption('until-date-time'));
             } else {
                 $untilDateTime = null;
             }
