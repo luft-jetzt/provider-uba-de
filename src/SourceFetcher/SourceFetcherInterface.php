@@ -2,7 +2,9 @@
 
 namespace App\SourceFetcher;
 
+use App\SourceFetcher\Query\Pollutant;
+
 interface SourceFetcherInterface
 {
-    public function fetch(string $pollutantIdentifier, ?\DateTimeImmutable $untilDateTime = null, ?\DateTimeImmutable $fromDateTime = null): string;
+    public function fetch(Pollutant $pollutant, ?\DateTimeImmutable $untilDateTime = null, ?\DateTimeImmutable $fromDateTime = null): string;
 }
