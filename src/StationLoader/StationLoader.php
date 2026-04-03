@@ -26,6 +26,7 @@ class StationLoader implements StationLoaderInterface
 
     protected bool $update = false;
 
+    /** @var array<int, array<int, mixed>> */
     protected array $ubaStationList = [];
 
     public function __construct(
@@ -39,6 +40,7 @@ class StationLoader implements StationLoaderInterface
         return array_key_exists($stationCode, $stationLoadResult->getNewStationList()) || array_key_exists($stationCode, $stationLoadResult->getChangedStationList()) || array_key_exists($stationCode, $stationLoadResult->getExistingStationList());
     }
 
+    /** @param array<int, mixed> $stationData */
     protected function mergeStation(Station $station, array $stationData): Station
     {
         $station
@@ -93,6 +95,7 @@ class StationLoader implements StationLoaderInterface
         return $this;
     }
 
+    /** @return array<int, array<int, mixed>> */
     protected function fetchStationList(): array
     {
         $response = $this->httpClient->request('GET', self::SOURCE_URL);
@@ -103,6 +106,7 @@ class StationLoader implements StationLoaderInterface
         return $this->ubaStationList;
     }
 
+    /** @param array<int, mixed> $stationData */
     protected function createStation(array $stationData): Station
     {
         $latitude = (float)$stationData[self::FIELD_LATITUDE];
@@ -118,6 +122,7 @@ class StationLoader implements StationLoaderInterface
         return $station;
     }
 
+    /** @return array<string, Station> */
     public function getExistingStationList(): array
     {
         return $this->stationApi->getStations();

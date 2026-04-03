@@ -10,6 +10,7 @@ class QueryBuilder
     {
     }
 
+    /** @return array<string, int|string> */
     public static function buildQueryParameters(Query $query): array
     {
         return [

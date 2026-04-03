@@ -16,11 +16,13 @@ class StationManager implements StationManagerInterface
 
     }
 
+    /** @return list<Station> */
     public function loadStationList(): array
     {
         return $this->stationApi->getStations('uba_de');
     }
 
+    /** @param list<Station> $stationList */
     public function cacheStationList(array $stationList): void
     {
         foreach ($stationList as $station) {

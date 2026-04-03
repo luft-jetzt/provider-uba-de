@@ -1,0 +1,9 @@
+parameters:
+    level: 6
+    paths:
+        - src
+    ignoreErrors:
+        # StationApiInterface::getStations() doesn't declare the $provider parameter,
+        # but the implementation (StationApi) accepts it. Third-party interface mismatch.
+        - identifier: arguments.count
+          path: src/StationManager/StationManager.php

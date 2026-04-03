@@ -6,10 +6,16 @@ use Caldera\LuftModel\Model\Station;
 
 class StationLoadResult
 {
+    /** @var array<string, Station> */
     protected array $existingStationList = [];
+
+    /** @var array<string, Station> */
     protected array $newStationList = [];
+
+    /** @var array<string, Station> */
     protected array $changedStationList = [];
 
+    /** @param array<string, Station> $existingStationList */
     public function setExistingStationList(array $existingStationList): self
     {
         $this->existingStationList = $existingStationList;
@@ -17,6 +23,7 @@ class StationLoadResult
         return $this;
     }
 
+    /** @return array<string, Station> */
     public function getExistingStationList(): array
     {
         return $this->existingStationList;
@@ -29,6 +36,7 @@ class StationLoadResult
         return $this;
     }
 
+    /** @return array<string, Station> */
     public function getNewStationList(): array
     {
         return $this->newStationList;
@@ -41,6 +49,7 @@ class StationLoadResult
         return $this;
     }
 
+    /** @return array<string, Station> */
     public function getChangedStationList(): array
     {
         return $this->changedStationList;

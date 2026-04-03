@@ -8,13 +8,14 @@ use Caldera\LuftModel\Model\Value;
 
 class Parser implements ParserInterface
 {
+    /** @var array<int, Station> */
     protected array $stationList;
 
     public function __construct(protected readonly StationManagerInterface $stationManager)
     {
-
     }
 
+    /** @return list<Value> */
     public function parse(string $responseString, string $pollutant): array
     {
         $response = json_decode($responseString, true, 512, JSON_OBJECT_AS_ARRAY);
