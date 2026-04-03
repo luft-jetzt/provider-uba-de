@@ -1,5 +1,7 @@
 .idea
 provider-uba.iml
+.DS_Store
+.claude/
 
 ###> symfony/framework-bundle ###
 /.env.local
