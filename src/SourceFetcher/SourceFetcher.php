@@ -2,13 +2,9 @@
 
 namespace App\SourceFetcher;
 
+use App\SourceFetcher\Query\Pollutant;
+use App\SourceFetcher\Query\Query;
 use App\SourceFetcher\QueryBuilder\QueryBuilder;
-use App\SourceFetcher\Query\COQuery;
-use App\SourceFetcher\Query\NO2Query;
-use App\SourceFetcher\Query\O3Query;
-use App\SourceFetcher\Query\PM10Query;
-use App\SourceFetcher\Query\QueryInterface;
-use App\SourceFetcher\Query\SO2Query;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class SourceFetcher implements SourceFetcherInterface
@@ -20,7 +16,7 @@ class SourceFetcher implements SourceFetcherInterface
     ) {
     }
 
-    public function fetch(string $pollutantIdentifier, ?\DateTimeImmutable $untilDateTime = null, ?\DateTimeImmutable $fromDateTime = null): string
+    public function fetch(Pollutant $pollutant, ?\DateTimeImmutable $untilDateTime = null, ?\DateTimeImmutable $fromDateTime = null): string
     {
         if (!$untilDateTime) {
             $untilDateTime = new \DateTimeImmutable();
@@ -30,37 +26,8 @@ class SourceFetcher implements SourceFetcherInterface
             $fromDateTime = $untilDateTime->sub(new \DateInterval('PT2H'));
         }
 
-        $fetchMethodName = sprintf('fetch%s', strtoupper($pollutantIdentifier));
-        return $this->$fetchMethodName($untilDateTime, $fromDateTime);
-    }
+        $query = new Query($pollutant, $untilDateTime, $fromDateTime);
 
-    protected function fetchPM10(\DateTimeImmutable $untilDateTime, ?\DateTimeImmutable $fromDateTime = null): string
-    {
-        return $this->fetchMeasurement(new PM10Query($untilDateTime, $fromDateTime));
-    }
-
-    protected function fetchSO2(\DateTimeImmutable $untilDateTime, ?\DateTimeImmutable $fromDateTime = null): string
-    {
-        return $this->fetchMeasurement(new SO2Query($untilDateTime, $fromDateTime));
-    }
-
-    protected function fetchNO2(\DateTimeImmutable $untilDateTime, ?\DateTimeImmutable $fromDateTime = null): string
-    {
-        return $this->fetchMeasurement(new NO2Query($untilDateTime, $fromDateTime));
-    }
-
-    protected function fetchO3(\DateTimeImmutable $untilDateTime, ?\DateTimeImmutable $fromDateTime = null): string
-    {
-        return $this->fetchMeasurement(new O3Query($untilDateTime, $fromDateTime));
-    }
-
-    protected function fetchCO(\DateTimeImmutable $untilDateTime, ?\DateTimeImmutable $fromDateTime = null): string
-    {
-        return $this->fetchMeasurement(new COQuery($untilDateTime, $fromDateTime));
-    }
-
-    protected function fetchMeasurement(QueryInterface $query): string
-    {
         $response = $this->httpClient->request('GET', self::API_URL, [
             'query' => QueryBuilder::buildQueryParameters($query),
         ]);

@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\SourceFetcher\Parser\ParserInterface;
+use App\SourceFetcher\Query\Pollutant;
 use App\SourceFetcher\SourceFetcherInterface;
 use Caldera\LuftApiBundle\Api\ValueApiInterface;
 use Caldera\LuftModel\Model\Value;
@@ -20,8 +21,11 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class LuftFetchCommand extends Command
 {
-    public function __construct(protected SourceFetcherInterface $sourceFetcher, protected ParserInterface $parser, protected ValueApiInterface $valueApi)
-    {
+    public function __construct(
+        private readonly SourceFetcherInterface $sourceFetcher,
+        private readonly ParserInterface $parser,
+        private readonly ValueApiInterface $valueApi,
+    ) {
         parent::__construct();
     }
 
@@ -29,7 +33,7 @@ class LuftFetchCommand extends Command
     {
         $this
             ->addArgument('pollutants', InputArgument::IS_ARRAY, 'List pollutants to fetch')
-            ->addOption('from-date-time', null,InputOption::VALUE_REQUIRED, 'Only fetch values after this date time')
+            ->addOption('from-date-time', null, InputOption::VALUE_REQUIRED, 'Only fetch values after this date time')
             ->addOption('until-date-time', null, InputOption::VALUE_REQUIRED, 'Only fetch values before this date time')
             ->addOption('tag', null, InputOption::VALUE_REQUIRED, 'Add a tag to fetched values')
         ;
@@ -48,32 +52,27 @@ class LuftFetchCommand extends Command
         }
 
         foreach ($pollutantList as $pollutantIdentifier) {
-            $pollutantFetchMethodName = sprintf('fetch%s', strtoupper($pollutantIdentifier));
+            $pollutant = Pollutant::tryFrom(strtolower($pollutantIdentifier));
 
-            if (!method_exists($this->sourceFetcher, $pollutantFetchMethodName)) {
-                $io->error(sprintf('Could not find a method to fetch pollutant "%s"', $pollutantIdentifier));
+            if (!$pollutant) {
+                $io->error(sprintf('Unknown pollutant "%s". Valid values: %s', $pollutantIdentifier, implode(', ', array_column(Pollutant::cases(), 'value'))));
 
                 continue;
             }
 
-            if ($input->getOption('from-date-time')) {
-                $fromDateTime = new \DateTimeImmutable($input->getOption('from-date-time'));
-            } else {
-                $fromDateTime = null;
-            }
+            $fromDateTime = $input->getOption('from-date-time')
+                ? new \DateTimeImmutable($input->getOption('from-date-time'))
+                : null;
 
-            if ($input->getOption('until-date-time')) {
-                $untilDateTime = new \DateTimeImmutable($input->getOption('until-date-time'));
-            } else {
-                $untilDateTime = null;
-            }
+            $untilDateTime = $input->getOption('until-date-time')
+                ? new \DateTimeImmutable($input->getOption('until-date-time'))
+                : null;
 
-            $dataString = $this->sourceFetcher->fetch($pollutantIdentifier, $untilDateTime, $fromDateTime);
+            $dataString = $this->sourceFetcher->fetch($pollutant, $untilDateTime, $fromDateTime);
 
-            $valueList = $this->parser->parse($dataString, $pollutantIdentifier);
+            $valueList = $this->parser->parse($dataString, $pollutant->value);
 
             if ($tag = $input->getOption('tag')) {
-                /** @var Value $value */
                 foreach ($valueList as $value) {
                     $value->setTag($tag);
                 }
@@ -98,7 +97,7 @@ class LuftFetchCommand extends Command
                 );
             }
 
-            $io->success(sprintf('Fetched %d values for pollutant "%s"', count($valueList), $pollutantIdentifier));
+            $io->success(sprintf('Fetched %d values for pollutant "%s"', count($valueList), $pollutant->value));
         }
 
         return Command::SUCCESS;

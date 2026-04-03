@@ -2,7 +2,7 @@
 
 namespace App\SourceFetcher\QueryBuilder;
 
-use App\SourceFetcher\Query\QueryInterface;
+use App\SourceFetcher\Query\Query;
 
 class QueryBuilder
 {
@@ -10,15 +10,15 @@ class QueryBuilder
     {
     }
 
-    public static function buildQueryParameters(QueryInterface $query): array
+    public static function buildQueryParameters(Query $query): array
     {
         return [
-            'component' => $query->getComponent(),
-            'scope' => $query->getScope(),
-            'date_from' => $query->getFromDateTime()->format('Y-m-d'),
-            'time_from' => ((int) $query->getFromDateTime()->format('H') + 1),
-            'date_to' => $query->getUntilDateTime()->format('Y-m-d'),
-            'time_to' => ((int) $query->getUntilDateTime()->format('H') + 1),
+            'component' => $query->pollutant->component(),
+            'scope' => $query->pollutant->scope(),
+            'date_from' => $query->fromDateTime->format('Y-m-d'),
+            'time_from' => ((int) $query->fromDateTime->format('H') + 1),
+            'date_to' => $query->untilDateTime->format('Y-m-d'),
+            'time_to' => ((int) $query->untilDateTime->format('H') + 1),
         ];
     }
 }
