@@ -4,6 +4,7 @@ namespace App\StationLoader;
 
 use Caldera\LuftApiBundle\Api\StationApiInterface;
 use Caldera\LuftModel\Model\Station;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class StationLoader implements StationLoaderInterface
 {
@@ -27,9 +28,10 @@ class StationLoader implements StationLoaderInterface
 
     protected array $ubaStationList = [];
 
-    public function __construct(protected StationApiInterface $stationApi)
-    {
-
+    public function __construct(
+        protected StationApiInterface $stationApi,
+        private readonly HttpClientInterface $httpClient,
+    ) {
     }
 
     protected function stationExists(StationLoadResult $stationLoadResult, string $stationCode): bool
@@ -93,9 +95,10 @@ class StationLoader implements StationLoaderInterface
 
     protected function fetchStationList(): array
     {
-        $csvFileContent = file_get_contents(self::SOURCE_URL);
+        $response = $this->httpClient->request('GET', self::SOURCE_URL);
+        $data = $response->toArray();
 
-        $this->ubaStationList = (json_decode($csvFileContent, true))['stations'];
+        $this->ubaStationList = $data['stations'];
 
         return $this->ubaStationList;
     }

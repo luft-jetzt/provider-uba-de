@@ -10,12 +10,16 @@ use App\SourceFetcher\Query\O3Query;
 use App\SourceFetcher\Query\PM10Query;
 use App\SourceFetcher\Query\QueryInterface;
 use App\SourceFetcher\Query\SO2Query;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class SourceFetcher implements SourceFetcherInterface
 {
-    public function __construct(protected readonly ParserInterface $parser)
-    {
+    private const API_URL = 'https://www.umweltbundesamt.de/api/air_data/v2/measures/json';
 
+    public function __construct(
+        protected readonly ParserInterface $parser,
+        private readonly HttpClientInterface $httpClient,
+    ) {
     }
 
     public function fetch(string $pollutantIdentifier, ?\DateTimeImmutable $untilDateTime = null, ?\DateTimeImmutable $fromDateTime = null): string
@@ -34,52 +38,35 @@ class SourceFetcher implements SourceFetcherInterface
 
     protected function fetchPM10(\DateTimeImmutable $untilDateTime, ?\DateTimeImmutable $fromDateTime = null): string
     {
-        $query = new PM10Query($untilDateTime, $fromDateTime);
-
-        return $this->fetchMeasurement($query);
+        return $this->fetchMeasurement(new PM10Query($untilDateTime, $fromDateTime));
     }
 
     protected function fetchSO2(\DateTimeImmutable $untilDateTime, ?\DateTimeImmutable $fromDateTime = null): string
     {
-        $query = new SO2Query($untilDateTime, $fromDateTime);
-
-        return $this->fetchMeasurement($query);
+        return $this->fetchMeasurement(new SO2Query($untilDateTime, $fromDateTime));
     }
 
     protected function fetchNO2(\DateTimeImmutable $untilDateTime, ?\DateTimeImmutable $fromDateTime = null): string
     {
-        $query = new NO2Query($untilDateTime, $fromDateTime);
-
-        return $this->fetchMeasurement($query);
+        return $this->fetchMeasurement(new NO2Query($untilDateTime, $fromDateTime));
     }
 
     protected function fetchO3(\DateTimeImmutable $untilDateTime, ?\DateTimeImmutable $fromDateTime = null): string
     {
-        $query = new O3Query($untilDateTime, $fromDateTime);
-
-        return $this->fetchMeasurement($query);
+        return $this->fetchMeasurement(new O3Query($untilDateTime, $fromDateTime));
     }
 
     protected function fetchCO(\DateTimeImmutable $untilDateTime, ?\DateTimeImmutable $fromDateTime = null): string
     {
-        $query = new COQuery($untilDateTime, $fromDateTime);
-
-        return $this->fetchMeasurement($query);
+        return $this->fetchMeasurement(new COQuery($untilDateTime, $fromDateTime));
     }
 
     protected function fetchMeasurement(QueryInterface $query): string
     {
-        return $this->query($query);
-    }
+        $response = $this->httpClient->request('GET', self::API_URL, [
+            'query' => QueryBuilder::buildQueryParameters($query),
+        ]);
 
-    protected function query(QueryInterface $query): string
-    {
-        $data = QueryBuilder::buildQueryString($query);
-
-        $queryString = sprintf('https://www.umweltbundesamt.de/api/air_data/v2/measures/json?%s', $data);
-
-        $response = file_get_contents($queryString);
-
-        return $response;
+        return $response->getContent();
     }
 }
