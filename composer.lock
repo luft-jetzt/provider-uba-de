@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e6ad37358e4e0c50e99569ab3297743b",
+    "content-hash": "a1fc4f0d7ee592e3e50f33b66a27a403",
     "packages": [
         {
             "name": "luft-jetzt/luft-api-bundle",
-            "version": "0.10",
+            "version": "0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/luft-jetzt/luft-api-bundle.git",
-                "reference": "da9b40f9b7be7b1bfd43e6ddbe6fbea2fc2507b3"
+                "reference": "6162e46287143d461e6453a24bdcf1e9ffb24382"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/luft-jetzt/luft-api-bundle/zipball/da9b40f9b7be7b1bfd43e6ddbe6fbea2fc2507b3",
-                "reference": "da9b40f9b7be7b1bfd43e6ddbe6fbea2fc2507b3",
+                "url": "https://api.github.com/repos/luft-jetzt/luft-api-bundle/zipball/6162e46287143d461e6453a24bdcf1e9ffb24382",
+                "reference": "6162e46287143d461e6453a24bdcf1e9ffb24382",
                 "shasum": ""
             },
             "require": {
@@ -43,9 +43,9 @@
             ],
             "support": {
                 "issues": "https://github.com/luft-jetzt/luft-api-bundle/issues",
-                "source": "https://github.com/luft-jetzt/luft-api-bundle/tree/1.0.1"
+                "source": "https://github.com/luft-jetzt/luft-api-bundle/tree/1.1.1"
             },
-            "time": "2026-04-03T18:16:15+00:00"
+            "time": "2026-04-03T20:14:54+00:00"
         },
         {
             "name": "luft-jetzt/luft-model",
@@ -4969,14 +4969,14 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.4",
+        "php": "^8.5",
         "ext-ctype": "*",
         "ext-iconv": "*"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "plugin-api-version": "2.9.0"
 }
