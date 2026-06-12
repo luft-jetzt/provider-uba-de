@@ -24,7 +24,8 @@ class Parser implements ParserInterface
 
         foreach ($response['data'] as $ubaStationId => $dataSet) {
             while ($data = array_pop($dataSet)) {
-                if ($data[2] <= 0) {
+                // Remote-Wert defensiv prüfen: nur numerische, endliche, positive Werte.
+                if (!is_numeric($data[2]) || !is_finite((float) $data[2]) || (float) $data[2] <= 0) {
                     continue;
                 }
 
