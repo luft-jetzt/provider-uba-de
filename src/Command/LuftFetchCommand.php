@@ -72,6 +72,14 @@ class LuftFetchCommand extends Command
 
             $valueList = $this->parser->parse($dataString, $pollutant->value);
 
+            $skippedCount = $this->parser->getSkippedStationValueCount();
+
+            if ($skippedCount > 0 && count($valueList) === 0) {
+                $io->warning(sprintf('All %d fetched value(s) for pollutant "%s" were dropped because their stations are not in the cache. Run "station:cache" (the cache has a 1h TTL).', $skippedCount, $pollutant->value));
+            } elseif ($skippedCount > 0) {
+                $io->note(sprintf('Skipped %d value(s) for pollutant "%s" because their stations are not in the cache.', $skippedCount, $pollutant->value));
+            }
+
             if ($tag = $input->getOption('tag')) {
                 foreach ($valueList as $value) {
                     $value->setTag($tag);

@@ -8,7 +8,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class StationLoader implements StationLoaderInterface
 {
-    const SOURCE_URL = 'https://www.umweltbundesamt.de/api/air_data/v2/meta/json?use=measure&lang=de';
+    const SOURCE_URL = 'https://luftdaten.umweltbundesamt.de/api/air-data/v4/meta/json?use=measure&lang=de';
 
     const PROVIDER_IDENTIFIER = 'uba_de';
 

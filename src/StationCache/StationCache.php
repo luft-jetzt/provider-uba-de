@@ -3,15 +3,16 @@
 namespace App\StationCache;
 
 use Caldera\LuftModel\Model\Station;
+use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
 class StationCache implements StationCacheInterface
 {
-    private readonly FilesystemAdapter $cache;
+    private readonly CacheItemPoolInterface $cache;
 
-    public function __construct()
+    public function __construct(?CacheItemPoolInterface $cache = null)
     {
-        $this->cache = new FilesystemAdapter(self::NAMESPACE, self::TTL, self::CACHE_DIRECTORY);
+        $this->cache = $cache ?? new FilesystemAdapter(self::NAMESPACE, self::TTL, self::CACHE_DIRECTORY);
     }
 
     public function addStation(Station $station): self
