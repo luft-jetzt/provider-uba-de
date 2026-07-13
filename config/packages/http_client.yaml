@@ -1,0 +1,8 @@
+framework:
+    http_client:
+        default_options:
+            # Idle timeout between two data chunks. Prevents a hanging UBA
+            # upstream from blocking the cron job indefinitely.
+            timeout: 10
+            # Hard cap on the whole request/response duration.
+            max_duration: 30

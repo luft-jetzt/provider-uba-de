@@ -86,6 +86,24 @@ class ParserTest extends TestCase
         $this->assertCount(0, $result);
     }
 
+    public function testParseSkipsImplausiblyLargeValues(): void
+    {
+        $station = $this->createStation();
+        $parser = $this->createParser($this->createStationManager(true, $station));
+
+        $response = json_encode([
+            'data' => [
+                123 => [
+                    [123, 1, 999999.0, '2024-06-15 12:00:00'],
+                ],
+            ],
+        ]);
+
+        $result = $parser->parse($response, 'pm10');
+
+        $this->assertCount(0, $result);
+    }
+
     public function testParseSkipsUnknownStations(): void
     {
         $parser = $this->createParser($this->createStationManager(false));
