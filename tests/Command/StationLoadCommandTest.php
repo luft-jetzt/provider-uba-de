@@ -77,6 +77,36 @@ class StationLoadCommandTest extends TestCase
         $this->assertStringContainsString('1 changed stations', $tester->getDisplay());
     }
 
+    public function testUpdateOptionEnablesUpdateMode(): void
+    {
+        $loader = $this->createMock(StationLoaderInterface::class);
+        $loader->expects($this->once())
+            ->method('setUpdate')
+            ->with(true)
+            ->willReturnSelf();
+        $loader->method('load')->willReturn(new StationLoadResult());
+
+        $tester = $this->createCommandTester($loader);
+        $tester->execute(['--update' => true]);
+
+        $this->assertSame(0, $tester->getStatusCode());
+    }
+
+    public function testUpdateModeDefaultsToDisabled(): void
+    {
+        $loader = $this->createMock(StationLoaderInterface::class);
+        $loader->expects($this->once())
+            ->method('setUpdate')
+            ->with(false)
+            ->willReturnSelf();
+        $loader->method('load')->willReturn(new StationLoadResult());
+
+        $tester = $this->createCommandTester($loader);
+        $tester->execute([]);
+
+        $this->assertSame(0, $tester->getStatusCode());
+    }
+
     public function testExecuteWithNoChanges(): void
     {
         $existing = new Station();

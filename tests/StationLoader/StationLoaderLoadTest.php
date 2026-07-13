@@ -130,6 +130,22 @@ class StationLoaderLoadTest extends TestCase
         $this->assertCount(0, $result->getNewStationList());
     }
 
+    public function testLoadSkipsInactiveStations(): void
+    {
+        $inactive = $this->createStationData(id: 7, code: 'DEBB007');
+        $inactive[6] = '2021-03-22'; // "active to" date => decommissioned
+
+        $active = $this->createStationData(id: 21, code: 'DEBB021');
+
+        $loader = $this->createLoader([], [$inactive, $active]);
+
+        $result = $loader->load();
+
+        $this->assertCount(1, $result->getNewStationList());
+        $this->assertArrayHasKey('DEBB021', $result->getNewStationList());
+        $this->assertArrayNotHasKey('DEBB007', $result->getNewStationList());
+    }
+
     public function testLoadSkipsStationsWithMissingCodeField(): void
     {
         $stationData = [0 => 1]; // no field index 1

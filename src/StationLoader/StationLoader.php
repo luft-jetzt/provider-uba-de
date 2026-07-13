@@ -15,12 +15,10 @@ class StationLoader implements StationLoaderInterface
     const FIELD_ID = 0;
     const FIELD_STATION_CODE = 1;
     const FIELD_TITLE = 2;
-    const FIELD_CITY = 3;
     const FIELD_START_DATE = 5;
+    const FIELD_ACTIVE_TO = 6;
     const FIELD_LONGITUDE = 7;
     const FIELD_LATITUDE = 8;
-    const FIELD_STATE_CODE = 12;
-    const FIELD_STATE = 13;
     const FIELD_AREA_TYPE = 15;
     const FIELD_STATION_TYPE = 16;
 
@@ -45,7 +43,7 @@ class StationLoader implements StationLoaderInterface
     {
         $station
             ->setTitle($stationData[self::FIELD_TITLE])
-            ->setProvider('uba_de')
+            ->setProvider(self::PROVIDER_IDENTIFIER)
             ->setStationCode($stationData[self::FIELD_STATION_CODE])
             ->setLatitude((float)$stationData[self::FIELD_LATITUDE])
             ->setLongitude((float)$stationData[self::FIELD_LONGITUDE])
@@ -67,6 +65,13 @@ class StationLoader implements StationLoaderInterface
 
         foreach ($this->ubaStationList as $stationData) {
             if (!array_key_exists(self::FIELD_STATION_CODE, $stationData) || !$stationData[self::FIELD_STATION_CODE]) {
+                continue;
+            }
+
+            // Field 6 ("active to") is null/empty for stations still in operation
+            // and holds a decommissioning date for retired stations. Skip retired
+            // ones so they never reach the luft.jetzt database.
+            if (!empty($stationData[self::FIELD_ACTIVE_TO])) {
                 continue;
             }
 

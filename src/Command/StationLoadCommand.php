@@ -7,6 +7,7 @@ use Caldera\LuftApiBundle\Api\StationApiInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -21,9 +22,18 @@ class StationLoadCommand extends Command
         parent::__construct();
     }
 
+    protected function configure(): void
+    {
+        $this
+            ->addOption('update', null, InputOption::VALUE_NONE, 'Also merge and re-submit stations that already exist in the luft.jetzt database')
+        ;
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
+
+        $this->stationLoader->setUpdate((bool) $input->getOption('update'));
 
         $result = $this->stationLoader->load();
 
