@@ -137,9 +137,6 @@
     "symfony/polyfill-mbstring": {
         "version": "v1.20.0"
     },
-    "symfony/polyfill-php81": {
-        "version": "v1.25.0"
-    },
     "symfony/property-info": {
         "version": "7.4",
         "recipe": {
