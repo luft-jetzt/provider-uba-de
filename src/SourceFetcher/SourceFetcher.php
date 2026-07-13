@@ -9,7 +9,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class SourceFetcher implements SourceFetcherInterface
 {
-    private const API_URL = 'https://www.umweltbundesamt.de/api/air_data/v2/measures/json';
+    private const API_URL = 'https://luftdaten.umweltbundesamt.de/api/air-data/v4/measures/json';
 
     public function __construct(
         private readonly HttpClientInterface $httpClient,

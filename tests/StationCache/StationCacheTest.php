@@ -5,6 +5,7 @@ namespace App\Tests\StationCache;
 use App\StationCache\StationCache;
 use Caldera\LuftModel\Model\Station;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\Filesystem\Filesystem;
 
 class StationCacheTest extends TestCase
@@ -73,5 +74,22 @@ class StationCacheTest extends TestCase
 
         $retrieved = $this->cache->getStationByUbaStationId(42);
         $this->assertSame('NEW', $retrieved->getStationCode());
+    }
+
+    public function testUsesInjectedCachePool(): void
+    {
+        $cache = new StationCache(new ArrayAdapter());
+
+        $station = new Station();
+        $station->setUbaStationId(7);
+        $station->setStationCode('DEBB007');
+
+        $cache->addStation($station);
+
+        $retrieved = $cache->getStationByUbaStationId(7);
+
+        $this->assertNotNull($retrieved);
+        $this->assertSame('DEBB007', $retrieved->getStationCode());
+        $this->assertNull($cache->getStationByUbaStationId(999));
     }
 }

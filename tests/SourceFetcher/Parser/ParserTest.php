@@ -113,4 +113,58 @@ class ParserTest extends TestCase
 
         $this->assertCount(0, $result);
     }
+
+    public function testParseInvalidJsonThrows(): void
+    {
+        $parser = $this->createParser($this->createStationManager());
+
+        $this->expectException(\RuntimeException::class);
+
+        $parser->parse('<html>Service Unavailable</html>', 'pm10');
+    }
+
+    public function testParseMissingDataKeyThrows(): void
+    {
+        $parser = $this->createParser($this->createStationManager());
+
+        $this->expectException(\RuntimeException::class);
+
+        $parser->parse(json_encode(['request' => []]), 'pm10');
+    }
+
+    public function testSkippedStationValueCountTracksCacheMisses(): void
+    {
+        $parser = $this->createParser($this->createStationManager(false));
+
+        $response = json_encode([
+            'data' => [
+                999 => [
+                    [999, 1, 42.5, '2024-06-15 12:00:00'],
+                    [999, 1, 43.5, '2024-06-15 13:00:00'],
+                ],
+            ],
+        ]);
+
+        $result = $parser->parse($response, 'pm10');
+
+        $this->assertCount(0, $result);
+        $this->assertSame(2, $parser->getSkippedStationValueCount());
+    }
+
+    public function testSkippedStationValueCountResetsBetweenRuns(): void
+    {
+        $parser = $this->createParser($this->createStationManager(false));
+
+        $response = json_encode([
+            'data' => [
+                999 => [[999, 1, 42.5, '2024-06-15 12:00:00']],
+            ],
+        ]);
+
+        $parser->parse($response, 'pm10');
+        $this->assertSame(1, $parser->getSkippedStationValueCount());
+
+        $parser->parse(json_encode(['data' => []]), 'pm10');
+        $this->assertSame(0, $parser->getSkippedStationValueCount());
+    }
 }

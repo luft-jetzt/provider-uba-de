@@ -21,3 +21,16 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    # The station cache uses a dedicated filesystem pool (its own namespace and
+    # 1h TTL) injected explicitly, rather than instantiating the adapter itself.
+    App\StationCache\StationCache:
+        arguments:
+            $cache: '@app.station_cache.adapter'
+
+    app.station_cache.adapter:
+        class: Symfony\Component\Cache\Adapter\FilesystemAdapter
+        arguments:
+            $namespace: !php/const App\StationCache\StationCacheInterface::NAMESPACE
+            $defaultLifetime: !php/const App\StationCache\StationCacheInterface::TTL
+            $directory: '%kernel.project_dir%/var/cache/'
