@@ -3,6 +3,7 @@
 namespace App\StationManager;
 
 use App\StationCache\StationCacheInterface;
+use App\StationLoader\StationLoader;
 use Caldera\LuftApiBundle\Api\StationApiInterface;
 use Caldera\LuftModel\Model\Station;
 
@@ -19,7 +20,7 @@ class StationManager implements StationManagerInterface
     /** @return list<Station> */
     public function loadStationList(): array
     {
-        return $this->stationApi->getStations('uba_de');
+        return $this->stationApi->getStations(StationLoader::PROVIDER_IDENTIFIER);
     }
 
     /** @param list<Station> $stationList */
