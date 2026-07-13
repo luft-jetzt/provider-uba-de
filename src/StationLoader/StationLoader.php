@@ -40,15 +40,43 @@ class StationLoader implements StationLoaderInterface
         return array_key_exists($stationCode, $stationLoadResult->getNewStationList()) || array_key_exists($stationCode, $stationLoadResult->getChangedStationList()) || array_key_exists($stationCode, $stationLoadResult->getExistingStationList());
     }
 
+    // Bounding box covering Germany (with a small margin). Coordinates outside
+    // this range indicate corrupt UBA meta data and are rejected before the
+    // station is submitted to the luft.jetzt API.
+    private const GERMANY_LATITUDE_MIN = 47.0;
+    private const GERMANY_LATITUDE_MAX = 55.5;
+    private const GERMANY_LONGITUDE_MIN = 5.5;
+    private const GERMANY_LONGITUDE_MAX = 15.5;
+
+    private function assertPlausibleCoordinates(float $latitude, float $longitude, string $stationCode): void
+    {
+        if (
+            $latitude < self::GERMANY_LATITUDE_MIN || $latitude > self::GERMANY_LATITUDE_MAX
+            || $longitude < self::GERMANY_LONGITUDE_MIN || $longitude > self::GERMANY_LONGITUDE_MAX
+        ) {
+            throw new \InvalidArgumentException(sprintf(
+                'Implausible coordinates for station "%s": latitude %s, longitude %s (expected within Germany).',
+                $stationCode,
+                $latitude,
+                $longitude,
+            ));
+        }
+    }
+
     /** @param array<int, mixed> $stationData */
     protected function mergeStation(Station $station, array $stationData): Station
     {
+        $latitude = (float) $stationData[self::FIELD_LATITUDE];
+        $longitude = (float) $stationData[self::FIELD_LONGITUDE];
+
+        $this->assertPlausibleCoordinates($latitude, $longitude, (string) $stationData[self::FIELD_STATION_CODE]);
+
         $station
             ->setTitle($stationData[self::FIELD_TITLE])
             ->setProvider('uba_de')
             ->setStationCode($stationData[self::FIELD_STATION_CODE])
-            ->setLatitude((float)$stationData[self::FIELD_LATITUDE])
-            ->setLongitude((float)$stationData[self::FIELD_LONGITUDE])
+            ->setLatitude($latitude)
+            ->setLongitude($longitude)
             ->setFromDate(new \DateTime($stationData[self::FIELD_START_DATE]))
             ->setStationType($this->mapStationType($stationData[self::FIELD_STATION_TYPE]))
             ->setAreaType($this->mapAreaType($stationData[self::FIELD_AREA_TYPE]))

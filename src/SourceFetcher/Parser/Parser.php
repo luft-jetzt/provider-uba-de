@@ -8,6 +8,13 @@ use Caldera\LuftModel\Model\Value;
 
 class Parser implements ParserInterface
 {
+    /**
+     * Generous upper sanity bound for a measurement value. Real pollutant
+     * concentrations (µg/m³ or mg/m³) never approach this; anything above it
+     * signals a corrupt reading and is discarded rather than pushed on.
+     */
+    private const MAX_PLAUSIBLE_VALUE = 100000.0;
+
     /** @var array<int, Station> */
     protected array $stationList;
 
@@ -24,7 +31,7 @@ class Parser implements ParserInterface
 
         foreach ($response['data'] as $ubaStationId => $dataSet) {
             while ($data = array_pop($dataSet)) {
-                if ($data[2] <= 0) {
+                if ($data[2] <= 0 || $data[2] > self::MAX_PLAUSIBLE_VALUE) {
                     continue;
                 }
 

@@ -169,6 +169,17 @@ class StationLoaderLoadTest extends TestCase
         $this->assertSame('traffic', $station->getStationType());
     }
 
+    public function testLoadRejectsImplausibleCoordinates(): void
+    {
+        $loader = $this->createLoader([], [
+            $this->createStationData(id: 1, code: 'DEBW001', longitude: 0.0, latitude: 0.0),
+        ]);
+
+        $this->expectException(\InvalidArgumentException::class);
+
+        $loader->load();
+    }
+
     public function testSetUpdateReturnsSelf(): void
     {
         $loader = $this->createLoader([], []);
