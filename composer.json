@@ -7,13 +7,13 @@
         "ext-iconv": "*",
         "luft-jetzt/luft-api-bundle": "^0.11",
         "luft-jetzt/luft-model": "^0.5",
-        "symfony/console": "^8.0",
-        "symfony/dotenv": "^8.0",
+        "symfony/console": "^8.1",
+        "symfony/dotenv": "^8.1",
         "symfony/flex": "^2.10",
-        "symfony/framework-bundle": "^8.0",
-        "symfony/http-client": "^8.0",
-        "symfony/runtime": "^8.0",
-        "symfony/yaml": "^8.0"
+        "symfony/framework-bundle": "^8.1",
+        "symfony/http-client": "^8.1",
+        "symfony/runtime": "^8.1",
+        "symfony/yaml": "^8.1"
     },
     "config": {
         "optimize-autoloader": true,
@@ -57,7 +57,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "^8.0"
+            "require": "^8.1"
         }
     },
     "require-dev": {
