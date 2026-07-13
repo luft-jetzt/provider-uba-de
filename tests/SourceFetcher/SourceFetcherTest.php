@@ -35,8 +35,8 @@ class SourceFetcherTest extends TestCase
 
     public function testFetchUsesProvidedDates(): void
     {
-        $from = new \DateTimeImmutable('2024-06-15 10:00:00');
-        $until = new \DateTimeImmutable('2024-06-15 12:00:00');
+        $from = new \DateTimeImmutable('2024-06-15 10:00:00', new \DateTimeZone('+01:00'));
+        $until = new \DateTimeImmutable('2024-06-15 12:00:00', new \DateTimeZone('+01:00'));
 
         $response = $this->createMock(ResponseInterface::class);
         $response->method('getContent')->willReturn('{"data":{}}');

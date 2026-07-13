@@ -91,6 +91,30 @@ class ParserExtendedTest extends TestCase
         $this->assertSame('2024-12-25 18:30:00', $result[0]->getDateTime()->format('Y-m-d H:i:s'));
     }
 
+    public function testParseInterpretsTimestampsAsMez(): void
+    {
+        $stations = [100 => $this->createStation('DEBW001')];
+        $parser = new Parser($this->createManager($stations));
+
+        $response = json_encode([
+            'data' => [
+                100 => [[100, 1, 42.0, '2024-12-25 18:30:00']],
+            ],
+        ]);
+
+        $result = $parser->parse($response, 'o3');
+
+        $dateTime = $result[0]->getDateTime();
+
+        // The UBA JSON API reports MEZ (UTC+1) timestamps.
+        $this->assertSame(3600, $dateTime->getOffset());
+        // The same instant expressed in UTC is one hour earlier.
+        $this->assertSame(
+            '2024-12-25 17:30:00',
+            $dateTime->setTimezone(new \DateTimeZone('UTC'))->format('Y-m-d H:i:s'),
+        );
+    }
+
     public function testParseMixesValidAndInvalidValues(): void
     {
         $stations = [

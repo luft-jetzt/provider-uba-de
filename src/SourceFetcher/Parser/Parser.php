@@ -8,6 +8,12 @@ use Caldera\LuftModel\Model\Value;
 
 class Parser implements ParserInterface
 {
+    /**
+     * The UBA JSON API reports all timestamps in MEZ (CET, UTC+1, without daylight
+     * saving time). See the official interface description of the Luftdaten API.
+     */
+    private const UBA_TIMEZONE = '+01:00';
+
     /** @var array<int, Station> */
     protected array $stationList;
 
@@ -39,7 +45,7 @@ class Parser implements ParserInterface
 
                 $value
                     ->setStationCode($station->getStationCode())
-                    ->setDateTime(new \DateTime($data[3]))
+                    ->setDateTime(new \DateTime($data[3], new \DateTimeZone(self::UBA_TIMEZONE)))
                     ->setPollutant($pollutant)
                     ->setValue($data[2]);
 
